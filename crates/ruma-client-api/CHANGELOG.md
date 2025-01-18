@@ -6,6 +6,14 @@ Breaking changes:
 - `get_supported_versions::Response::known_versions()` returns a
   `BTreeSet<MatrixVersion>` instead of a `DoubleEndedIterator`.
 
+=======
+Improvements:
+
+- Add support for the authorization server metadata endpoint, according to the
+  latest draft of MSC2965.
+
+# 0.20.1
+
 Bug fixes:
 
 - `unstable-msc4186` without `unstable-msc3575` no longer create a compilation
