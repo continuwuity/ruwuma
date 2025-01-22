@@ -1,5 +1,24 @@
 # [unreleased]
 
+Bug fixes:
+
+- Do not check the signature of the server of the sender of `m.room.member`
+  invite events with a `third_party_invite` field.
+
+# 0.17.0
+
+Improvements:
+
+- The `unstable-exhaustive-types` cargo feature was replaced by the
+  `ruma_unstable_exhaustive_types` compile-time `cfg` setting. Like all `cfg`
+  settings, it can be enabled at compile-time with the `RUSTFLAGS` environment
+  variable, or inside `.cargo/config.toml`. It can also be enabled by setting
+  the `RUMA_UNSTABLE_EXHAUSTIVE_TYPES` environment variable.
+
+# 0.16.0
+
+Upgrade `ruma-common` to 0.14.0.
+
 # 0.15.0
 
 No changes for this version
