@@ -286,7 +286,7 @@ impl Ruleset {
     ///
     /// * `event` - The raw JSON of a room message event.
     /// * `context` - The context of the message and room at the time of the event.
-    #[instrument(skip_all, fields(context.room_id = %context.room_id))]
+    #[instrument(level = "debug", skip_all, fields(context.room_id = %context.room_id))]
     pub fn get_match<T>(
         &self,
         event: &Raw<T>,
@@ -310,7 +310,7 @@ impl Ruleset {
     ///
     /// * `event` - The raw JSON of a room message event.
     /// * `context` - The context of the message and room at the time of the event.
-    #[instrument(skip_all, fields(context.room_id = %context.room_id))]
+    #[instrument(level = "debug", skip_all, fields(context.room_id = %context.room_id))]
     pub fn get_actions<T>(&self, event: &Raw<T>, context: &PushConditionRoomCtx) -> &[Action] {
         self.get_match(event, context).map(|rule| rule.actions()).unwrap_or(&[])
     }
