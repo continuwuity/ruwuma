@@ -1,5 +1,30 @@
 # [unreleased]
 
+=======
+Breaking changes:
+
+- `UserId` parsing and deserialization are now compatible with all non-compliant
+  user IDs in the wild by default, due to a clarification in the spec.
+  - The `compat-user-id` cargo feature was removed.
+  - `UserId::validate_historical()` and `UserId::validate_strict()` allow to
+    check for spec compliance.
+  - The `(owned_)user_id!` macros always validate against the strict grammar in
+    the spec, regardless of the compat features that are enabled.
+- `(owned_)room_id!` macros disallow the `NUL` byte, due to a clarification in
+  the spec.
+- `(owned_)room_alias_id!` macros disallow the `NUL` byte for the localpart, due
+  to a clarification in the spec.
+- `MatrixVersion` does not implement `Display` anymore as it is not correct to
+  convert `V1_0` to a string. Instead `MatrixVersion::as_str()` can be used that
+  only returns `None` for that same variant.
+
+Improvements:
+
+- `MatrixVersion` implements `PartialOrd` and `Ord`. The variants are ordered by
+  release date, with a newer version being greater than an older version.
+
+# 0.15.1
+
 Improvements:
 
 - Add `MatrixVersion::V1_13`.
