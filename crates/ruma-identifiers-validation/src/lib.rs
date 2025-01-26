@@ -23,6 +23,7 @@ pub const MAX_BYTES: usize = 255;
 
 /// Checks if an identifier is valid.
 fn validate_id(id: &str, sigil: u8) -> Result<(), Error> {
+    #[cfg(not(feature = "compat-arbitrary-length-ids"))]
     if id.len() > MAX_BYTES {
         return Err(Error::MaximumLengthExceeded);
     }

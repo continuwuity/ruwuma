@@ -123,9 +123,11 @@ compat = [
     "compat-optional",
     "compat-unset-avatar",
     "compat-get-3pids",
-    "compat-signature-id",
     "compat-tag-info",
 ]
+
+# Allow IDs to exceed 255 bytes.
+compat-arbitrary-length-ids = ["ruma-common/compat-arbitrary-length-ids"]
 
 # Don't validate `ServerSigningKeyVersion`.
 compat-server-signing-key-version = ["ruma-common/compat-server-signing-key-version"]
@@ -161,9 +163,6 @@ compat-get-3pids = ["ruma-client-api?/compat-get-3pids"]
 # Accept `message` as an alias for `error` in `upload_signatures::v3::Failure`,
 # since that's what Synapse sends.
 compat-upload-signatures = ["ruma-client-api?/compat-upload-signatures"]
-
-# Allow extra characters in signature IDs not allowed in the specification.
-compat-signature-id = ["ruma-signatures?/compat-signature-id"]
 
 # Allow TagInfo to contain a stringified floating-point value for the `order` field.
 compat-tag-info = ["ruma-events?/compat-tag-info"]
