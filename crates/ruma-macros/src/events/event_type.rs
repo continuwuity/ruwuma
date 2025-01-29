@@ -48,31 +48,31 @@ pub fn expand_event_type_enum(
     let mut res = TokenStream::new();
 
     res.extend(
-        generate_enum("TimelineEventType", &timeline, &ruma_events)
+        generate_enum("TimelineEventType", &timeline, &ruma_events, Some(&state))
             .unwrap_or_else(syn::Error::into_compile_error),
     );
     res.extend(
-        generate_enum("StateEventType", &state, &ruma_events)
+        generate_enum("StateEventType", &state, &ruma_events, None)
             .unwrap_or_else(syn::Error::into_compile_error),
     );
     res.extend(
-        generate_enum("MessageLikeEventType", &message, &ruma_events)
+        generate_enum("MessageLikeEventType", &message, &ruma_events, None)
             .unwrap_or_else(syn::Error::into_compile_error),
     );
     res.extend(
-        generate_enum("EphemeralRoomEventType", &ephemeral, &ruma_events)
+        generate_enum("EphemeralRoomEventType", &ephemeral, &ruma_events, None)
             .unwrap_or_else(syn::Error::into_compile_error),
     );
     res.extend(
-        generate_enum("RoomAccountDataEventType", &room_account, &ruma_events)
+        generate_enum("RoomAccountDataEventType", &room_account, &ruma_events, None)
             .unwrap_or_else(syn::Error::into_compile_error),
     );
     res.extend(
-        generate_enum("GlobalAccountDataEventType", &global_account, &ruma_events)
+        generate_enum("GlobalAccountDataEventType", &global_account, &ruma_events, None)
             .unwrap_or_else(syn::Error::into_compile_error),
     );
     res.extend(
-        generate_enum("ToDeviceEventType", &to_device, &ruma_events)
+        generate_enum("ToDeviceEventType", &to_device, &ruma_events, None)
             .unwrap_or_else(syn::Error::into_compile_error),
     );
 
@@ -83,6 +83,7 @@ fn generate_enum(
     ident: &str,
     input: &[&Vec<EventEnumEntry>],
     ruma_common: &TokenStream,
+    other: Option<&[&Vec<EventEnumEntry>]>,
 ) -> syn::Result<TokenStream> {
     let serde = quote! { #ruma_common::exports::serde };
     let enum_doc = format!("The type of `{}` this is.", ident.strip_suffix("Type").unwrap());
@@ -98,6 +99,18 @@ fn generate_enum(
             }
         } else {
             deduped.push(item);
+        }
+    }
+
+    let mut other_deduped: Vec<&EventEnumEntry> = vec![];
+    for item in other.iter().flat_map(|o| o.iter()).copied().flatten() {
+        if let Some(idx) = other_deduped.iter().position(|e| e.ev_type == item.ev_type) {
+            // If there is a variant without config attributes use that
+            if other_deduped[idx].attrs != item.attrs && item.attrs.is_empty() {
+                other_deduped[idx] = item;
+            }
+        } else {
+            other_deduped.push(item);
         }
     }
 
@@ -189,6 +202,38 @@ fn generate_enum(
         None
     };
 
+    let from_ident_for_state = if ident == "TimelineEventType" {
+        let match_arms: Vec<_> = other_deduped
+            .iter()
+            .map(|e| {
+                let v = e.to_variant()?;
+                let ident_var = v.match_arm(quote! { #ident });
+                let state_var = v.ctor(quote! { Self });
+
+                Ok(if e.has_type_fragment() {
+                    quote! { #ident_var (_s) => #state_var (_s) }
+                } else {
+                    quote! { #ident_var => #state_var }
+                })
+            })
+            .collect::<syn::Result<_>>()?;
+
+        Some(quote! {
+            #[allow(deprecated)]
+            impl ::std::convert::From<#ident> for StateEventType {
+                fn from(s: #ident) -> Self {
+                    match s {
+                        #(#match_arms,)*
+                        _ => panic!("EventType is not a StateEventType"),
+                        //_ => compile_error!("EventType is not a StateEventType"),
+                    }
+                }
+            }
+        })
+    } else {
+        None
+    };
+
     Ok(quote! {
         #[doc = #enum_doc]
         ///
@@ -269,5 +314,6 @@ fn generate_enum(
         }
 
         #from_ident_for_timeline
+        #from_ident_for_state
     })
 }
