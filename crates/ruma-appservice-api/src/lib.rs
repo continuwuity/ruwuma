@@ -103,11 +103,7 @@ pub struct Registration {
     /// Whether the application service wants to receive ephemeral data.
     ///
     /// Defaults to `false`.
-    #[serde(
-        default,
-        skip_serializing_if = "ruma_common::serde::is_default",
-        alias = "de.sorunome.msc2409.push_ephemeral"
-    )]
+    #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
     pub receive_ephemeral: bool,
 }
 
