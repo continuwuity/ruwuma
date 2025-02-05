@@ -112,7 +112,7 @@ pub(crate) async fn do_check(
                     .collect::<Vec<_>>()
             );
 
-            let auth_chain_sets = state_sets
+            let auth_chain_sets: Vec<_> = state_sets
                 .iter()
                 .map(|map| {
                     store.auth_event_ids(room_id(), map.values().cloned().collect()).unwrap()
@@ -626,6 +626,7 @@ pub(crate) mod event {
             }
         }
 
+        #[allow(refining_impl_trait)]
         fn prev_events(&self) -> Box<dyn DoubleEndedIterator<Item = &Self::Id> + Send + '_> {
             match &self.rest {
                 Pdu::RoomV1Pdu(ev) => Box::new(ev.prev_events.iter().map(|(id, _)| id)),
@@ -635,6 +636,7 @@ pub(crate) mod event {
             }
         }
 
+        #[allow(refining_impl_trait)]
         fn auth_events(&self) -> Box<dyn DoubleEndedIterator<Item = &Self::Id> + Send + '_> {
             match &self.rest {
                 Pdu::RoomV1Pdu(ev) => Box::new(ev.auth_events.iter().map(|(id, _)| id)),

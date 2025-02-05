@@ -1223,7 +1223,7 @@ mod tests {
         let exists = |id: <PduEvent as Event>::Id| ready(ev_map.get(&*id).is_some());
 
         let state_sets = [state_at_bob, state_at_charlie];
-        let auth_chain = state_sets
+        let auth_chain: Vec<_> = state_sets
             .iter()
             .map(|map| store.auth_event_ids(room_id(), map.values().cloned().collect()).unwrap())
             .collect();
@@ -1330,7 +1330,7 @@ mod tests {
 
         let ev_map = &store.0;
         let state_sets = [state_set_a, state_set_b];
-        let auth_chain = state_sets
+        let auth_chain: Vec<_> = state_sets
             .iter()
             .map(|map| store.auth_event_ids(room_id(), map.values().cloned().collect()).unwrap())
             .collect();
