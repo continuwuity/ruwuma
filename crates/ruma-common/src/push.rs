@@ -1286,6 +1286,9 @@ mod tests {
                         "enabled": true
                     }
                 ],
+                "room": [],
+                "sender": [],
+                "underride": [],
             })
         );
     }
