@@ -203,30 +203,11 @@ fn generate_enum(
     };
 
     let from_ident_for_state = if ident == "TimelineEventType" {
-        let match_arms: Vec<_> = other_deduped
-            .iter()
-            .map(|e| {
-                let v = e.to_variant()?;
-                let ident_var = v.match_arm(quote! { #ident });
-                let state_var = v.ctor(quote! { Self });
-
-                Ok(if e.has_type_fragment() {
-                    quote! { #ident_var (_s) => #state_var (_s) }
-                } else {
-                    quote! { #ident_var => #state_var }
-                })
-            })
-            .collect::<syn::Result<_>>()?;
-
         Some(quote! {
             #[allow(deprecated)]
             impl ::std::convert::From<#ident> for StateEventType {
                 fn from(s: #ident) -> Self {
-                    match s {
-                        #(#match_arms,)*
-                        _ => panic!("EventType is not a StateEventType"),
-                        //_ => compile_error!("EventType is not a StateEventType"),
-                    }
+                    s.to_cow_str().as_ref().into()
                 }
             }
         })
