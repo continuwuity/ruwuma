@@ -51,7 +51,7 @@ impl DehydratedDeviceV1 {
 
 /// The `org.matrix.msc3814.v2` variant of a dehydrated device.
 #[derive(Clone, Debug)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub struct DehydratedDeviceV2 {
     /// The pickle of the `Olm` account of the device.
     ///

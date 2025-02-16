@@ -15,7 +15,7 @@ use crate::{room::ImageInfo, PrivOwnedStr};
 ///
 /// State key is the identifier for the image pack in [ImagePackRoomsEventContent].
 #[derive(Clone, Debug, Default, Deserialize, Serialize, EventContent)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 #[ruma_event(type = "im.ponies.room_emotes", kind = State, state_key_type = String)]
 pub struct RoomImagePackEventContent {
     /// A list of images available in this image pack.
@@ -38,7 +38,7 @@ impl RoomImagePackEventContent {
 /// The content of an `im.ponies.user_emotes` event,
 /// the unstable version of `m.image_pack` in account data events.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, EventContent)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 #[ruma_event(type = "im.ponies.user_emotes", kind = GlobalAccountData)]
 pub struct AccountImagePackEventContent {
     /// A list of images available in this image pack.
@@ -60,7 +60,7 @@ impl AccountImagePackEventContent {
 
 /// An image object in a image pack.
 #[derive(Clone, Debug, Deserialize, Serialize)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub struct PackImage {
     /// The MXC URI to the media file.
     pub url: OwnedMxcUri,
@@ -90,7 +90,7 @@ impl PackImage {
 
 /// A description for the pack.
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub struct PackInfo {
     /// A display name for the pack.
     /// This does not have to be unique from other packs in a room.
@@ -141,7 +141,7 @@ pub enum PackUsage {
 /// The content of an `im.ponies.emote_rooms` event,
 /// the unstable version of `m.image_pack.rooms`.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, EventContent)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 #[ruma_event(type = "im.ponies.emote_rooms", kind = GlobalAccountData)]
 pub struct ImagePackRoomsEventContent {
     /// A map of enabled image packs in each room.
@@ -158,7 +158,7 @@ impl ImagePackRoomsEventContent {
 
 /// Additional metadatas for a enabled room image pack.
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub struct ImagePackRoomContent {}
 
 impl ImagePackRoomContent {
