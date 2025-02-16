@@ -21,7 +21,7 @@ pub mod unstable {
         authentication: None,
         history: {
             unstable => "/_matrix/client/unstable/uk.tcpip.msc4133/profile/:user_id/:key_name",
-            // 1.12 => "/_matrix/client/v3/profile/:user_id/:key_name",
+            1.13 => "/_matrix/client/v3/profile/:user_id/:key_name",
         }
     };
 
@@ -31,7 +31,7 @@ pub mod unstable {
         pub user_id: OwnedUserId,
 
         #[ruma_api(path)]
-        pub key: String,
+        pub key_name: String,
     }
 
     #[response(error = crate::Error)]
@@ -42,8 +42,8 @@ pub mod unstable {
     }
 
     impl Request {
-        pub fn new(user_id: OwnedUserId, key: String) -> Self {
-            Self { user_id, key }
+        pub fn new(user_id: OwnedUserId, key_name: String) -> Self {
+            Self { user_id, key_name }
         }
     }
 

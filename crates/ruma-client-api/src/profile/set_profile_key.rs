@@ -21,7 +21,7 @@ pub mod unstable {
         authentication: AccessToken,
         history: {
             unstable => "/_matrix/client/unstable/uk.tcpip.msc4133/profile/:user_id/:key_name",
-            // 1.12 => "/_matrix/client/v3/profile/:user_id/:key_name",
+            1.12 => "/_matrix/client/v3/profile/:user_id/:key_name",
         }
     };
 
@@ -31,7 +31,7 @@ pub mod unstable {
         pub user_id: OwnedUserId,
 
         #[ruma_api(path)]
-        pub key: String,
+        pub key_name: String,
 
         #[ruma_api(body)]
         pub kv_pair: BTreeMap<String, JsonValue>,
@@ -44,10 +44,10 @@ pub mod unstable {
     impl Request {
         pub fn new(
             user_id: OwnedUserId,
-            key: String,
+            key_name: String,
             kv_pair: BTreeMap<String, JsonValue>,
         ) -> Self {
-            Self { user_id, key, kv_pair }
+            Self { user_id, key_name, kv_pair }
         }
     }
 
