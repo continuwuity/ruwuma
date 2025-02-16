@@ -14,7 +14,7 @@ pub mod unstable {
         authentication: None,
         history: {
             unstable => "/_matrix/client/unstable/uk.tcpip.msc4133/profile/:user_id/us.cloke.msc4175.tz",
-            // 1.12 => "/_matrix/client/v3/profile/:user_id/m.tz",
+            1.12 => "/_matrix/client/v3/profile/:user_id/m.tz",
         }
     };
 
