@@ -486,7 +486,12 @@ pub enum VersioningDecision {
 /// select the right endpoint stability variation to use depending on which Matrix versions you
 /// pass to [`try_into_http_request`](super::OutgoingRequest::try_into_http_request), see its
 /// respective documentation for more information.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+///
+/// The `PartialOrd` and `Ord` implementations of this type sort the variants by release date. A
+/// newer release is greater than an older release.
+///
+/// `MatrixVersion::is_superset_of()` is used to keep track of compatibility between versions.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub enum MatrixVersion {
     /// Matrix 1.0 was a release prior to the global versioning system and does not correspond to a
@@ -623,9 +628,7 @@ impl MatrixVersion {
     /// This (considering if major versions are the same) is equivalent to a `self >= other`
     /// check.
     pub fn is_superset_of(self, other: Self) -> bool {
-        let (major_l, minor_l) = self.into_parts();
-        let (major_r, minor_r) = other.into_parts();
-        major_l == major_r && minor_l >= minor_r
+        self >= other
     }
 
     /// Decompose the Matrix version into its major and minor number.
