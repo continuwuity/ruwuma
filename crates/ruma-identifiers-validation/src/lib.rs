@@ -53,3 +53,18 @@ pub trait KeyName: AsRef<str> {
     /// Validate the given string for this name.
     fn validate(s: &str) -> Result<(), Error>;
 }
+
+/// Check whether the Matrix identifier localpart is [allowed over federation].
+///
+/// According to the spec, localparts can consist of any legal non-surrogate Unicode code points
+/// except for `:` and `NUL` (`U+0000`).
+///
+/// [allowed over federation]: https://spec.matrix.org/latest/appendices/#historical-user-ids
+pub fn localpart_is_backwards_compatible(localpart: &str) -> Result<(), Error> {
+    let is_invalid = localpart.contains([':', '\0']);
+    if is_invalid {
+        Err(Error::InvalidCharacters)
+    } else {
+        Ok(())
+    }
+}
