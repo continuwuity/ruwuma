@@ -17,6 +17,10 @@ Breaking changes:
 - `MatrixVersion` does not implement `Display` anymore as it is not correct to
   convert `V1_0` to a string. Instead `MatrixVersion::as_str()` can be used that
   only returns `None` for that same variant.
+- `MatrixVersion::(into/from)_parts` are no longer exposed as public methods.
+  They were usually used to sort `MatrixVersion`s, now the `PartialOrd` and
+  `Ord` implementations can be used instead.
+- `Protocol` and `ProtocolInit` are generic on the protocol instance type.
 
 Bug fixes:
 
@@ -27,6 +31,8 @@ Improvements:
 
 - `MatrixVersion` implements `PartialOrd` and `Ord`. The variants are ordered by
   release date, with a newer version being greater than an older version.
+- `ProtocolInstance` has an `instance_id` field, due to a clarification in the
+  spec.
 
 # 0.15.1
 
