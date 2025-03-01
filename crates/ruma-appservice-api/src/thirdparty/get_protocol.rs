@@ -69,7 +69,7 @@ pub mod v1 {
     /// To create an instance of this type, first create a [`ProtocolInstanceInit`] and convert it
     /// via `AppserviceProtocolInstance::from` / `.into()`.
     #[derive(Clone, Debug, Deserialize, Serialize)]
-    #[cfg_attr(not(ruma_unstable_exhaustive_types), non_exhaustive)]
+    #[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
     pub struct AppserviceProtocolInstance {
         /// A human-readable description for the protocol, such as the name.
         pub desc: String,

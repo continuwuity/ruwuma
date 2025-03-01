@@ -82,7 +82,7 @@ pub fn or_empty<'de, D: Deserializer<'de>, T: for <'a> Deserialize<'a>>(
             Err(e) => {
                 #[derive(Deserialize)]
                 #[serde(deny_unknown_fields)]
-                struct Empty {};
+                struct Empty {}
                 if let Ok(Empty {}) = serde_json::from_str(json.get()) {
                     Ok(None)
                 } else {
