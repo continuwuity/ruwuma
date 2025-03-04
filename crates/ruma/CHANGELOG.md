@@ -1,5 +1,46 @@
 # [unreleased]
 
+- The deprecated global `compat` cargo feature was removed. The `compat-*` cargo
+  features need to be enabled individually.
+- The `unstable-unspecified` cargo feature was removed.
+- ruma-client is not reexported by ruma anymore, it lives as its own separate
+  crate. All the corresponding features were removed.
+- Bump MSRV to 1.81
+
+# 0.12.1
+
+Please refer to the changelogs of:
+
+- ruma-common 0.15.1
+- ruma-events 0.30.1
+- ruma-client-api 0.20.1
+- ruma-appservice-api 0.12.1
+
+# 0.12.0
+
+- The `unstable-exhaustive-types` cargo feature was replaced by the
+  `ruma_unstable_exhaustive_types` compile-time `cfg` setting. Like all `cfg`
+  settings, it can be enabled at compile-time with the `RUSTFLAGS` environment
+  variable, or inside `.cargo/config.toml`. It can also be enabled by setting
+  the `RUMA_UNSTABLE_EXHAUSTIVE_TYPES` environment variable.
+
+Please refer to the changelogs of:
+
+- ruma-common 0.15.0
+- ruma-events 0.30.0
+- ruma-client-api 0.20.0
+- ruma-push-gateway-api 0.11.0
+- ruma-state-res 0.13.0
+
+# 0.11.1
+
+Please refer to the changelogs of:
+
+* ruma-common 0.14.1
+* ruma-events 0.29.1
+
+# 0.11.0
+
 - The `compat-key-id` cargo feature was renamed to
   `compat-server-signing-key-version`.
 

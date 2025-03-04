@@ -64,16 +64,6 @@
 //! * `events`
 //! * `signatures`
 //!
-//! # `ruma-client` features
-//!
-//! The `client` feature activates [`ruma::client`][client], and `client-ext-client-api` activates
-//! `ruma-client`s `client-api` feature. All other `client-*` features activate the same feature
-//! without the `client-` prefix on `ruma-client`. See the crate's documentation for the effect of
-//! these features.
-//!
-//! If you are viewing this on `docs.rs`, you can have a look at the feature dependencies by
-//! clicking **Feature flags** in the toolbar at the top.
-//!
 //! # Compile-time `cfg` settings
 //!
 //! These settings are accepted at compile time to configure the generated code. They can be set as
@@ -90,9 +80,6 @@
 #![warn(missing_docs)]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
-#[cfg(feature = "client")]
-#[doc(inline)]
-pub use ruma_client as client;
 #[cfg(feature = "events")]
 #[doc(inline)]
 pub use ruma_events as events;
@@ -147,7 +134,5 @@ pub use js_int::{
 };
 #[doc(no_inline)]
 pub use js_option::JsOption;
-#[cfg(feature = "client-ext-client-api")]
-pub use ruma_client::Client;
 pub use ruma_common::*;
 pub use web_time as time;
