@@ -89,9 +89,6 @@ pub use ruma_html as html;
 #[cfg(feature = "identifiers-validation")]
 #[doc(inline)]
 pub use ruma_identifiers_validation as identifiers_validation;
-#[cfg(feature = "server-util")]
-#[doc(inline)]
-pub use ruma_server_util as server_util;
 #[cfg(feature = "signatures")]
 #[doc(inline)]
 pub use ruma_signatures as signatures;

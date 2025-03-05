@@ -2,6 +2,32 @@
 
 Breaking changes:
 
+- Remove the `origin` field in `create_join_event::{v1/v2}::RoomState` due to a
+  clarification in the spec.
+
+Improvements:
+
+- The `unstable-unspecified` cargo feature was removed. The `pdus` field of
+  `send_transaction_message::v1::Request` is always serialized. To allow this
+  field to be missing during deserialization, use the `compat-optional-txn-pdus`
+  cargo feature.
+- ruma-server-util was merged into this crate. `XMatrix` is available in the
+  `authentication` module.
+
+# 0.11.0
+
+Improvements:
+
+- The `unstable-exhaustive-types` cargo feature was replaced by the
+  `ruma_unstable_exhaustive_types` compile-time `cfg` setting. Like all `cfg`
+  settings, it can be enabled at compile-time with the `RUSTFLAGS` environment
+  variable, or inside `.cargo/config.toml`. It can also be enabled by setting
+  the `RUMA_UNSTABLE_EXHAUSTIVE_TYPES` environment variable.
+
+# 0.10.0
+
+Breaking changes:
+
 - Remove the unused `KeyObject` struct. It is actually supposed to be the same type
   as `ruma_common::encryption::SignedKey`.
 - Use `OwnedOneTimeKeyId` and `OneTimeKeyAlgorithm` instead of
