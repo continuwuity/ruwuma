@@ -339,7 +339,7 @@ impl KnockedRoom {
 
 impl From<KnockState> for KnockedRoom {
     fn from(knock_state: KnockState) -> Self {
-        KnockedRoom { knock_state, ..Default::default() }
+        KnockedRoom { knock_state }
     }
 }
 
