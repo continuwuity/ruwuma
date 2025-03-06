@@ -21,7 +21,7 @@ client = ["dep:ruma-client"]
 events = ["dep:ruma-events"]
 server-util = ["dep:ruma-server-util"]
 signatures = ["dep:ruma-signatures", "canonical-json"]
-state-res = ["dep:ruma-state-res"]
+#state-res = ["dep:ruma-state-res"]
 
 # ruma-client feature flags
 client-ext-client-api = ["client", "ruma-client?/client-api"]
@@ -119,7 +119,7 @@ full = [
     "client-ext-client-api",
     "events",
     "signatures",
-    "state-res",
+    #"state-res",
     "appservice-api",
     "client-api",
     "federation-api",
@@ -201,7 +201,7 @@ unstable-exhaustive-types = [
     "ruma-identity-service-api?/unstable-exhaustive-types",
     "ruma-push-gateway-api?/unstable-exhaustive-types",
     "ruma-signatures?/unstable-exhaustive-types",
-    "ruma-state-res?/unstable-exhaustive-types",
+    #"ruma-state-res?/unstable-exhaustive-types",
     "ruma-events?/unstable-exhaustive-types",
 ]
 unstable-extensible-events = [
@@ -344,7 +344,7 @@ ruma-events = { workspace = true, optional = true }
 ruma-html = { workspace = true, optional = true }
 ruma-server-util = { workspace = true, optional = true }
 ruma-signatures = { workspace = true, optional = true }
-ruma-state-res = { workspace = true, optional = true }
+#ruma-state-res = { workspace = true, optional = true }
 
 ruma-appservice-api = { workspace = true, optional = true }
 ruma-client-api = { workspace = true, optional = true }
