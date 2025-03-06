@@ -92,9 +92,9 @@ pub use ruma_identifiers_validation as identifiers_validation;
 #[cfg(feature = "signatures")]
 #[doc(inline)]
 pub use ruma_signatures as signatures;
-#[cfg(feature = "state-res")]
-#[doc(inline)]
-pub use ruma_state_res as state_res;
+//#[cfg(feature = "state-res")]
+//#[doc(inline)]
+//pub use ruma_state_res as state_res;
 
 /// (De)serializable types for various [Matrix APIs][apis] requests and responses and abstractions
 /// for them.
