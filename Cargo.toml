@@ -1,5 +1,6 @@
 [workspace]
 members = ["crates/*", "xtask"]
+exclude = ["old/*"]
 # Only compile / check / document the public crates by default
 default-members = ["crates/*"]
 resolver = "2"
