@@ -26,6 +26,7 @@ pub mod msc3266 {
         authentication: AccessTokenOptional,
         history: {
             unstable => "/_matrix/client/unstable/im.nheko.summary/summary/:room_id_or_alias",
+            //1.15 => "/_matrix/client/v1/summary/:room_id_or_alias",
         }
     };
 
@@ -106,6 +107,11 @@ pub mod msc3266 {
             alias = "encryption"
         )]
         pub encryption: Option<EventEncryptionAlgorithm>,
+
+        /// If the room is a restricted room, these are the room IDs which are specified by the
+        /// join rules.
+        #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
+        pub allowed_room_ids: Vec<OwnedRoomId>,
     }
 
     impl Request {
@@ -138,6 +144,7 @@ pub mod msc3266 {
                 room_version: None,
                 membership: None,
                 encryption: None,
+                allowed_room_ids: Vec::new(),
             }
         }
     }

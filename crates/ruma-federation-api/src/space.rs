@@ -2,8 +2,8 @@
 
 use js_int::UInt;
 use ruma_common::{
-    room::RoomType, serde::Raw, space::SpaceRoomJoinRule, OwnedMxcUri, OwnedRoomAliasId,
-    OwnedRoomId,
+    room::RoomType, serde::Raw, space::SpaceRoomJoinRule, EventEncryptionAlgorithm, OwnedMxcUri,
+    OwnedRoomAliasId, OwnedRoomId, RoomVersionId,
 };
 use ruma_events::space::child::HierarchySpaceChildEvent;
 use serde::{Deserialize, Serialize};
@@ -78,6 +78,23 @@ pub struct SpaceHierarchyParentSummary {
     /// rules.
     #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
     pub allowed_room_ids: Vec<OwnedRoomId>,
+
+    /// If the room is encrypted, the algorithm used for this room.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        rename = "im.nheko.summary.encryption",
+        alias = "encryption"
+    )]
+    pub encryption: Option<EventEncryptionAlgorithm>,
+
+    /// Version of the room.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        rename = "im.nheko.summary.room_version",
+        alias = "im.nheko.summary.version",
+        alias = "room_version"
+    )]
+    pub room_version: Option<RoomVersionId>,
 }
 
 /// Initial set of mandatory fields of `SpaceHierarchyParentSummary`.
@@ -139,6 +156,8 @@ impl From<SpaceHierarchyParentSummaryInit> for SpaceHierarchyParentSummary {
             room_type: None,
             children_state,
             allowed_room_ids,
+            encryption: None,
+            room_version: None,
         }
     }
 }
@@ -206,6 +225,23 @@ pub struct SpaceHierarchyChildSummary {
     /// rules.
     #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
     pub allowed_room_ids: Vec<OwnedRoomId>,
+
+    /// If the room is encrypted, the algorithm used for this room.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        rename = "im.nheko.summary.encryption",
+        alias = "encryption"
+    )]
+    pub encryption: Option<EventEncryptionAlgorithm>,
+
+    /// Version of the room.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        rename = "im.nheko.summary.room_version",
+        alias = "im.nheko.summary.version",
+        alias = "room_version"
+    )]
+    pub room_version: Option<RoomVersionId>,
 }
 
 /// Initial set of mandatory fields of `SpaceHierarchyChildSummary`.
@@ -260,6 +296,8 @@ impl From<SpaceHierarchyChildSummaryInit> for SpaceHierarchyChildSummary {
             join_rule,
             room_type: None,
             allowed_room_ids,
+            encryption: None,
+            room_version: None,
         }
     }
 }
@@ -279,6 +317,8 @@ impl From<SpaceHierarchyParentSummary> for SpaceHierarchyChildSummary {
             room_type,
             children_state: _,
             allowed_room_ids,
+            encryption,
+            room_version,
         } = parent;
 
         Self {
@@ -293,6 +333,8 @@ impl From<SpaceHierarchyParentSummary> for SpaceHierarchyChildSummary {
             join_rule,
             room_type,
             allowed_room_ids,
+            encryption,
+            room_version,
         }
     }
 }

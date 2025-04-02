@@ -6,8 +6,8 @@
 
 use js_int::UInt;
 use ruma_common::{
-    room::RoomType, serde::Raw, space::SpaceRoomJoinRule, OwnedMxcUri, OwnedRoomAliasId,
-    OwnedRoomId,
+    room::RoomType, serde::Raw, space::SpaceRoomJoinRule, EventEncryptionAlgorithm, OwnedMxcUri,
+    OwnedRoomAliasId, OwnedRoomId, RoomVersionId,
 };
 use ruma_events::space::child::HierarchySpaceChildEvent;
 use serde::{Deserialize, Serialize};
@@ -74,6 +74,28 @@ pub struct SpaceHierarchyRoomsChunk {
     ///
     /// If the room is not a space-room, this should be empty.
     pub children_state: Vec<Raw<HierarchySpaceChildEvent>>,
+
+    /// If the room is encrypted, the algorithm used for this room.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        rename = "im.nheko.summary.encryption",
+        alias = "encryption"
+    )]
+    pub encryption: Option<EventEncryptionAlgorithm>,
+
+    /// Version of the room.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        rename = "im.nheko.summary.room_version",
+        alias = "im.nheko.summary.version",
+        alias = "room_version"
+    )]
+    pub room_version: Option<RoomVersionId>,
+
+    /// If the room is a restricted room, these are the room IDs which are specified by the
+    /// join rules.
+    #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
+    pub allowed_room_ids: Vec<OwnedRoomId>,
 }
 
 /// Initial set of mandatory fields of `SpaceHierarchyRoomsChunk`.
@@ -129,6 +151,9 @@ impl From<SpaceHierarchyRoomsChunkInit> for SpaceHierarchyRoomsChunk {
             join_rule,
             room_type: None,
             children_state,
+            encryption: None,
+            room_version: None,
+            allowed_room_ids: Vec::new(),
         }
     }
 }
