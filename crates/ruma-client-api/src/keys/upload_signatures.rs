@@ -96,7 +96,6 @@ pub mod v3 {
     }
 
     /// A failure to process a signed key.
-    #[non_exhaustive]
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct Failure {
         /// Machine-readable error code.
