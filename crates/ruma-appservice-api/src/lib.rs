@@ -103,8 +103,14 @@ pub struct Registration {
     /// Whether the application service wants to receive ephemeral data.
     ///
     /// Defaults to `false`.
-    #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
+    #[serde(default)]
     pub receive_ephemeral: bool,
+
+    /// Whether the application service wants to do device management, as part of MSC4190.
+    ///
+    /// Defaults to `false`
+    #[serde(default, rename = "io.element.msc4190")]
+    pub device_management: bool,
 }
 
 /// Initial set of fields of `Registration`.
@@ -167,6 +173,7 @@ impl From<RegistrationInit> for Registration {
             rate_limited,
             receive_ephemeral: false,
             protocols,
+            device_management: false,
         }
     }
 }
