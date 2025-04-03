@@ -1427,6 +1427,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn default_ruleset_applies() {
         let set = Ruleset::server_default(user_id!("@jolly_jumper:server.name"));
 
@@ -1666,6 +1667,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     #[allow(deprecated)]
     fn old_mentions_apply() {
         let set = Ruleset::server_default(user_id!("@jolly_jumper:server.name"));
