@@ -2,9 +2,12 @@
 //!
 //! [`m.room.join_rules`]: https://spec.matrix.org/latest/client-server-api/#mroomjoin_rules
 
-use std::{borrow::Cow, collections::BTreeMap};
+use std::{
+    borrow::{Borrow, Cow},
+    collections::BTreeMap,
+};
 
-use ruma_common::{serde::from_raw_json_value, space::SpaceRoomJoinRule, OwnedRoomId};
+use ruma_common::{serde::from_raw_json_value, space::SpaceRoomJoinRule, OwnedRoomId, RoomId};
 use ruma_macros::EventContent;
 use serde::{
     de::{Deserializer, Error},
@@ -113,6 +116,22 @@ pub enum JoinRule {
 }
 
 impl JoinRule {
+    /// Returns allowed room_id's for restricted rooms; empty for other variants
+    pub fn allowed_rooms(&self) -> impl Iterator<Item = &RoomId> + Send {
+        let rules = match self {
+            JoinRule::Restricted(rules) | JoinRule::KnockRestricted(rules) => Some(rules),
+            _ => None,
+        };
+
+        rules.into_iter().flat_map(|rules| rules.allow.iter()).filter_map(|rule| {
+            if let AllowRule::RoomMembership(RoomMembership { room_id: membership }) = rule {
+                Some(membership.borrow())
+            } else {
+                None
+            }
+        })
+    }
+
     /// Returns the string name of this `JoinRule`
     pub fn as_str(&self) -> &str {
         match self {
