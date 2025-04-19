@@ -85,6 +85,10 @@ pub mod v3 {
         #[serde(skip_serializing_if = "Option::is_none")]
         pub room_id: Option<String>,
 
+        /// The desired fully qualified custom room ID
+        #[serde(rename = "fi.mau.room_id", skip_serializing_if = "Option::is_none")]
+        pub fi_mau_room_id: Option<String>,
+
         /// Room version to set for the room.
         ///
         /// Defaults to homeserver's default if not specified.
