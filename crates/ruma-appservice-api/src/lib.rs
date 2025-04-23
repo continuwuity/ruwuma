@@ -61,6 +61,12 @@ impl Namespaces {
     }
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct CallbackToggles {
+    pub user_may_invite: Option<bool>,
+    pub user_may_join_room: Option<bool>
+}
+
 /// Information required in the registration yaml file that a homeserver needs.
 ///
 /// To create an instance of this type, first create a `RegistrationInit` and convert it via
@@ -111,6 +117,10 @@ pub struct Registration {
     /// Defaults to `false`
     #[serde(default, rename = "io.element.msc4190")]
     pub device_management: bool,
+
+    /// A list of callback toggles for the application service.
+    #[serde(rename = "org.continuwuity.as_callbacks")]
+    pub callbacks : Option<Vec<CallbackToggles>>,
 }
 
 /// Initial set of fields of `Registration`.
@@ -174,6 +184,7 @@ impl From<RegistrationInit> for Registration {
             receive_ephemeral: false,
             protocols,
             device_management: false,
+            callbacks: None,
         }
     }
 }
