@@ -46,8 +46,7 @@ pub mod v3 {
         /// Fallback public keys for "pre-key" messages.
         #[serde(
             default,
-            skip_serializing_if = "BTreeMap::is_empty",
-            alias = "org.matrix.msc2732.fallback_keys"
+            skip_serializing_if = "BTreeMap::is_empty"
         )]
         pub fallback_keys: BTreeMap<OwnedOneTimeKeyId, Raw<OneTimeKey>>,
     }
