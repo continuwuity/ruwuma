@@ -120,7 +120,7 @@ pub struct Registration {
 
     /// A list of callback toggles for the application service.
     #[serde(rename = "org.continuwuity.as_callbacks")]
-    pub callbacks : Option<Vec<CallbackToggles>>,
+    pub callbacks : Option<CallbackToggles>,
 }
 
 /// Initial set of fields of `Registration`.
