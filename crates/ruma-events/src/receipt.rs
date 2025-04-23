@@ -119,7 +119,7 @@ pub enum ReceiptType {
 pub type UserReceipts = BTreeMap<OwnedUserId, Receipt>;
 
 /// An acknowledgement of an event.
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, PartialEq)]
 #[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub struct Receipt {
     /// The time when the receipt was sent.
