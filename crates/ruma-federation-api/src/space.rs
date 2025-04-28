@@ -62,7 +62,7 @@ pub struct SpaceHierarchyParentSummary {
     pub avatar_url: Option<OwnedMxcUri>,
 
     /// The join rule of the room.
-    #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
+    #[serde(default)]
     pub join_rule: SpaceRoomJoinRule,
 
     /// The type of room from `m.room.create`, if any.
