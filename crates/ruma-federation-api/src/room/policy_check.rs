@@ -1,4 +1,4 @@
-//! `POST /_matrix/policy/unstable/org.matrix.msc4284/event/:eventId/check`
+//! `POST /_matrix/policy/unstable/org.matrix.msc4284/event/{eventId}/check`
 //!
 //! Checks if an event is allowed by the room's policy server.
 //! This is now a fallback behaviour that will be removed later.
@@ -19,7 +19,7 @@ pub mod unstable {
         rate_limited: false,
         authentication: ServerSignatures,
         history: {
-            unstable => "/_matrix/policy/unstable/org.matrix.msc4284/event/:event_id/check",
+            unstable => "/_matrix/policy/unstable/org.matrix.msc4284/event/{event_id}/check",
         }
     };
 
