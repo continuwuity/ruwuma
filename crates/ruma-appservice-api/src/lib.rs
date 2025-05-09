@@ -13,6 +13,7 @@ pub mod event;
 pub mod ping;
 pub mod query;
 pub mod thirdparty;
+pub mod callback;
 
 /// A namespace defined by an application service.
 ///
