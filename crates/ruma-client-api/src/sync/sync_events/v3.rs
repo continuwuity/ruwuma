@@ -64,6 +64,7 @@ pub struct Request {
     /// The maximum time to poll in milliseconds before returning this request.
     #[serde(
         with = "ruma_common::serde::duration::opt_ms",
+        default = "Option::None",
         skip_serializing_if = "Option::is_none"
     )]
     #[ruma_api(query)]
