@@ -44,10 +44,7 @@ pub mod v3 {
         pub one_time_keys: BTreeMap<OwnedOneTimeKeyId, Raw<OneTimeKey>>,
 
         /// Fallback public keys for "pre-key" messages.
-        #[serde(
-            default,
-            skip_serializing_if = "BTreeMap::is_empty"
-        )]
+        #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
         pub fallback_keys: BTreeMap<OwnedOneTimeKeyId, Raw<OneTimeKey>>,
     }
 
