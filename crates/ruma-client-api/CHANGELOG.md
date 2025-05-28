@@ -7,6 +7,9 @@ Breaking changes:
   `BTreeSet<MatrixVersion>` instead of a `DoubleEndedIterator`.
 - Add support for MSC4155 behind the `unstable-msc4155` flag.
 
+- The `discovery::discover_homeserver::Response` well-known now includes the
+  `rtc_foci` as defined in MSC4143.
+
 =======
 Improvements:
 
