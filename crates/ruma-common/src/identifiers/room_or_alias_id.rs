@@ -51,6 +51,12 @@ impl RoomOrAliasId {
             }
         }
     }
+    
+    /// Returns the localpart of the room (alias) ID.
+    pub fn localpart(&self) -> &str {
+        let colon_idx = self.as_str().find(':').unwrap_or(self.as_str().len());
+        &self.as_str()[1..colon_idx]
+    }
 
     /// Whether this is a room id (starts with `'!'`)
     pub fn is_room_id(&self) -> bool {

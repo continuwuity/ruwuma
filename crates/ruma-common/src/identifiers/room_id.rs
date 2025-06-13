@@ -41,6 +41,12 @@ impl RoomId {
         <&RoomOrAliasId>::from(self).server_name()
     }
 
+    /// Returns the localpart of the room ID.
+    #[inline]
+    pub fn localpart(&self) -> &str {
+        <&RoomOrAliasId>::from(self).localpart()
+    }
+
     /// Create a `matrix.to` URI for this room ID.
     ///
     /// Note that it is recommended to provide servers that should know the room to be able to find
