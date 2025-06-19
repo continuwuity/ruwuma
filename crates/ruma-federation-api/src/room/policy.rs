@@ -7,10 +7,7 @@ pub mod v1 {
     //!
     //! [spec]: https://github.com/matrix-org/matrix-spec-proposals/pull/4284
 
-    use ruma_common::{
-        api::{response, Metadata},
-        metadata,
-    };
+    use ruma_common::{api::{response, request, Metadata}, metadata, OwnedEventId};
 
     const METADATA: Metadata = metadata! {
         method: GET,
@@ -32,6 +29,21 @@ pub mod v1 {
         /// Creates a new `Response` with the given server name, timestamp, and event.
         pub fn new(recommendation: String) -> Self {
             Self { recommendation }
+        }
+    }
+
+    /// Request type for the `check` endpoint.
+    #[request]
+    pub struct Request {
+        /// The event ID to check.
+        #[ruma_api(path)]
+        pub event_id: OwnedEventId,
+    }
+    
+    impl Request {
+        /// Creates a new `Request` with the given event ID.
+        pub fn new(event_id: OwnedEventId) -> Self {
+            Self { event_id }
         }
     }
 }
