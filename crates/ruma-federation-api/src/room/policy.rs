@@ -11,7 +11,7 @@ pub mod v1 {
     use serde_json::value::RawValue as RawJsonValue;
 
     const METADATA: Metadata = metadata! {
-        method: GET,
+        method: POST,
         rate_limited: false,
         authentication: ServerSignatures,
         history: {
