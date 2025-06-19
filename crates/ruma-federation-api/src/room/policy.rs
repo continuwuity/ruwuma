@@ -8,6 +8,7 @@ pub mod v1 {
     //! [spec]: https://github.com/matrix-org/matrix-spec-proposals/pull/4284
 
     use ruma_common::{api::{response, request, Metadata}, metadata, OwnedEventId};
+    use serde_json::value::RawValue as RawJsonValue;
 
     const METADATA: Metadata = metadata! {
         method: GET,
@@ -38,12 +39,17 @@ pub mod v1 {
         /// The event ID to check.
         #[ruma_api(path)]
         pub event_id: OwnedEventId,
+
+        /// The PDU body (optional)
+        #[ruma_api(body)]
+        #[serde(skip_serializing_if = "Option::is_none")]
+        pub pdu: Option<Box<RawJsonValue>>,
     }
     
     impl Request {
         /// Creates a new `Request` with the given event ID.
         pub fn new(event_id: OwnedEventId) -> Self {
-            Self { event_id }
+            Self { event_id, pdu: None }
         }
     }
 }
