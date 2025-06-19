@@ -17,7 +17,7 @@ pub mod v1 {
         rate_limited: false,
         authentication: ServerSignatures,
         history: {
-            0.1 => "/_matrix/policy/unstable/event/:event_id/check",
+            unstable => "/_matrix/policy/unstable/event/:event_id/check",
         }
     };
 
