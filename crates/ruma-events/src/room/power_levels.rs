@@ -326,11 +326,20 @@ pub struct RoomPowerLevels {
     ///
     /// This is a mapping from `key` to power level for that notifications key.
     pub notifications: NotificationPowerLevels,
+
+    /// The owners of this room. Only used in [`RoomVersionId::HydraV11`] and later.
+    /// This should be an empty vector if the room version is 11 or below.
+    pub room_owners: Vec<OwnedUserId>
 }
 
 impl RoomPowerLevels {
     /// Get the power level of a specific user.
     pub fn for_user(&self, user_id: &UserId) -> Int {
+        if self.room_owners.contains(&user_id.to_owned()) {
+            // TODO: This is duct tape
+            // (if someone non-owner is set to 2^53-1, they can't be demoted even by the owners)
+            return Int::MAX
+        }
         self.users.get(user_id).map_or(self.users_default, |pl| *pl)
     }
 
@@ -558,6 +567,7 @@ impl From<RoomPowerLevelsEventContent> for RoomPowerLevels {
             users: c.users,
             users_default: c.users_default,
             notifications: c.notifications,
+            room_owners: Vec::new(), // Room owners are not part of the event content
         }
     }
 }
@@ -575,6 +585,7 @@ impl From<RedactedRoomPowerLevelsEventContent> for RoomPowerLevels {
             users: c.users,
             users_default: c.users_default,
             notifications: NotificationPowerLevels::default(),
+            room_owners: Vec::new(), // Room owners are not part of the event content
         }
     }
 }
