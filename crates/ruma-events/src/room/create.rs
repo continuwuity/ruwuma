@@ -50,6 +50,12 @@ pub struct RoomCreateEventContent {
     /// This is currently only used for spaces.
     #[serde(skip_serializing_if = "Option::is_none", rename = "type")]
     pub room_type: Option<RoomType>,
+
+    /// The owners of this room
+    ///
+    /// Only valid in Hydra rooms
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub additional_creators: Option<Vec<OwnedUserId>>,
 }
 
 impl RoomCreateEventContent {
@@ -63,6 +69,7 @@ impl RoomCreateEventContent {
             room_version: default_room_version_id(),
             predecessor: None,
             room_type: None,
+            additional_creators: None,
         }
     }
 
@@ -78,6 +85,24 @@ impl RoomCreateEventContent {
             room_version: RoomVersionId::V11,
             predecessor: None,
             room_type: None,
+            additional_creators: None,
+        }
+    }
+
+    /// Creates a new `RoomCreateEventContent` similar to new_v11, but with the room version set to
+    /// [`RoomVersionId::HydraV11`].
+    ///
+    /// The new field, additional creators, is still set to None, and must be manually replaced with
+    /// a vector.
+    pub fn new_hydra() -> Self {
+        #[allow(deprecated)]
+        Self {
+            creator: None,
+            federate: true,
+            room_version: RoomVersionId::HydraV11,
+            predecessor: None,
+            room_type: None,
+            additional_creators: None,
         }
     }
 }
@@ -164,6 +189,7 @@ mod tests {
             room_version: RoomVersionId::V4,
             predecessor: None,
             room_type: None,
+            additional_creators: None,
         };
 
         let json = json!({
@@ -184,6 +210,7 @@ mod tests {
             room_version: RoomVersionId::V4,
             predecessor: None,
             room_type: Some(RoomType::Space),
+            additional_creators: None,
         };
 
         let json = json!({

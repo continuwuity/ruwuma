@@ -151,6 +151,12 @@ pub mod v3 {
         /// This is currently only used for spaces.
         #[serde(skip_serializing_if = "Option::is_none", rename = "type")]
         pub room_type: Option<RoomType>,
+
+        /// The owners of this room
+        ///
+        /// Only valid in Hydra rooms
+        #[serde(skip_serializing_if = "Option::is_none")]
+        pub additional_creators: Option<Vec<UserId>>,
     }
 
     impl CreationContent {
@@ -176,7 +182,10 @@ pub mod v3 {
 
         /// Returns whether all fields have their default value.
         pub fn is_empty(&self) -> bool {
-            self.federate && self.predecessor.is_none() && self.room_type.is_none()
+            self.federate && 
+                self.predecessor.is_none() && 
+                self.room_type.is_none() &&
+                self.additional_creators.is_none()
         }
     }
 
