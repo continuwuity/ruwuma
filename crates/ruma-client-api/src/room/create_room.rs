@@ -156,13 +156,13 @@ pub mod v3 {
         ///
         /// Only valid in Hydra rooms
         #[serde(skip_serializing_if = "Option::is_none")]
-        pub additional_creators: Option<Vec<UserId>>,
+        pub additional_creators: Option<Vec<OwnedUserId>>,
     }
 
     impl CreationContent {
         /// Creates a new `CreationContent` with all fields defaulted.
         pub fn new() -> Self {
-            Self { federate: true, predecessor: None, room_type: None }
+            Self { federate: true, predecessor: None, room_type: None, additional_creators: None }
         }
 
         /// Given a `CreationContent` and the other fields that a homeserver has to fill, construct
@@ -182,8 +182,8 @@ pub mod v3 {
 
         /// Returns whether all fields have their default value.
         pub fn is_empty(&self) -> bool {
-            self.federate && 
-                self.predecessor.is_none() && 
+            self.federate &&
+                self.predecessor.is_none() &&
                 self.room_type.is_none() &&
                 self.additional_creators.is_none()
         }
