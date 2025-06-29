@@ -35,6 +35,10 @@ pub mod v3 {
         /// The reason for banning the user.
         #[serde(skip_serializing_if = "Option::is_none")]
         pub reason: Option<String>,
+
+        /// MSC4293: Redact on ban
+        #[serde(skip_serializing_if = "Option::is_none", alias = "org.matrix.msc4293.redact_events")]
+        pub redact_events: Option<bool>,
     }
 
     /// Response type for the `ban_user` endpoint.
@@ -45,7 +49,7 @@ pub mod v3 {
     impl Request {
         /// Creates a new `Request` with the given room id and room id.
         pub fn new(room_id: OwnedRoomId, user_id: OwnedUserId) -> Self {
-            Self { room_id, user_id, reason: None }
+            Self { room_id, user_id, reason: None, redact_events: None }
         }
     }
 
