@@ -108,7 +108,7 @@ pub struct RoomMemberEventContent {
     pub join_authorized_via_users_server: Option<OwnedUserId>,
 
     /// MSC4293: Redact on ban
-    #[serde(skip_serializing_if = "Option::is_none", alias = "org.matrix.msc4293.redact_events")]
+    #[serde(skip_serializing_if = "Option::is_none", rename = "org.matrix.msc4293.redact_events")]
     pub redact_events: Option<bool>,
 }
 
