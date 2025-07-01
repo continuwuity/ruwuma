@@ -709,6 +709,8 @@ impl MatrixVersion {
             (1, 11) => Ok(MatrixVersion::V1_11),
             (1, 12) => Ok(MatrixVersion::V1_12),
             (1, 13) => Ok(MatrixVersion::V1_13),
+            (1, 14) => Ok(MatrixVersion::V1_14),
+            (1, 15) => Ok(MatrixVersion::V1_15),
             _ => Err(UnknownVersionError),
         }
     }
