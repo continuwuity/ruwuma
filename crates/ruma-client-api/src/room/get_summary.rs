@@ -1,4 +1,4 @@
-//! `GET /_matrix/client/v1/summary/{roomIdOrAlias}`
+//! `GET /_matrix/client/v1/room_summary/{roomIdOrAlias}`
 //!
 //! Experimental API enabled with MSC3266.
 //!
@@ -26,7 +26,7 @@ pub mod msc3266 {
         authentication: AccessTokenOptional,
         history: {
             unstable => "/_matrix/client/unstable/im.nheko.summary/summary/:room_id_or_alias",
-            //1.15 => "/_matrix/client/v1/summary/:room_id_or_alias",
+            1.15 => "/_matrix/client/v1/room_summary/:room_id_or_alias",
         }
     };
 
@@ -86,9 +86,9 @@ pub mod msc3266 {
         /// Version of the room.
         #[serde(
             skip_serializing_if = "Option::is_none",
-            rename = "im.nheko.summary.room_version",
+            rename = "room_version",
             alias = "im.nheko.summary.version",
-            alias = "room_version"
+            alias = "im.nheko.summary.room_version"
         )]
         pub room_version: Option<RoomVersionId>,
 
@@ -103,8 +103,8 @@ pub mod msc3266 {
         /// If the room is encrypted, the algorithm used for this room.
         #[serde(
             skip_serializing_if = "Option::is_none",
-            rename = "im.nheko.summary.encryption",
-            alias = "encryption"
+            rename = "encryption",
+            alias = "im.nheko.summary.encryption"
         )]
         pub encryption: Option<EventEncryptionAlgorithm>,
 
