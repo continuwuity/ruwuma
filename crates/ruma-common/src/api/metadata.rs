@@ -571,6 +571,16 @@ pub enum MatrixVersion {
     ///
     /// See <https://spec.matrix.org/v1.13/>.
     V1_13,
+
+    /// Version 1.14 of the Matrix specification, released in Q1 2025.
+    ///
+    /// See <https://spec.matrix.org/v1.14/>.
+    V1_14,
+
+    /// Version 1.15 of the Matrix specification, released in Q2 2025.
+    ///
+    /// See <https://spec.matrix.org/v1.15/>.
+    V1_15,
 }
 
 impl TryFrom<&str> for MatrixVersion {
@@ -653,6 +663,8 @@ impl MatrixVersion {
             MatrixVersion::V1_11 => "v1.11",
             MatrixVersion::V1_12 => "v1.12",
             MatrixVersion::V1_13 => "v1.13",
+            MatrixVersion::V1_14 => "v1.14",
+            MatrixVersion::V1_15 => "v1.15",
         };
 
         Some(string)
@@ -675,6 +687,8 @@ impl MatrixVersion {
             MatrixVersion::V1_11 => (1, 11),
             MatrixVersion::V1_12 => (1, 12),
             MatrixVersion::V1_13 => (1, 13),
+            MatrixVersion::V1_14 => (1, 14),
+            MatrixVersion::V1_15 => (1, 15),
         }
     }
 
@@ -768,34 +782,25 @@ impl MatrixVersion {
     /// Get the default [`RoomVersionId`] for this `MatrixVersion`.
     pub fn default_room_version(&self) -> RoomVersionId {
         match self {
-            // <https://spec.matrix.org/historical/index.html#complete-list-of-room-versions>
             MatrixVersion::V1_0
-            // <https://spec.matrix.org/v1.1/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_1
-            // <https://spec.matrix.org/v1.2/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_2 => RoomVersionId::V6,
-            // <https://spec.matrix.org/v1.3/rooms/#complete-list-of-room-versions>
+
             MatrixVersion::V1_3
-            // <https://spec.matrix.org/v1.4/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_4
-            // <https://spec.matrix.org/v1.5/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_5 => RoomVersionId::V9,
-            // <https://spec.matrix.org/v1.6/rooms/#complete-list-of-room-versions>
+
             MatrixVersion::V1_6
-            // <https://spec.matrix.org/v1.7/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_7
-            // <https://spec.matrix.org/v1.8/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_8
-            // <https://spec.matrix.org/v1.9/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_9
-            // <https://spec.matrix.org/v1.10/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_10
-            // <https://spec.matrix.org/v1.11/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_11
-            // <https://spec.matrix.org/v1.12/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_12
-            // <https://spec.matrix.org/v1.13/rooms/#complete-list-of-room-versions>
             | MatrixVersion::V1_13 => RoomVersionId::V10,
+
+            MatrixVersion::V1_14
+            | MatrixVersion::V1_15 => RoomVersionId::V11,
         }
     }
 }
