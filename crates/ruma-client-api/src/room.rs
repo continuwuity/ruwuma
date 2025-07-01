@@ -4,7 +4,6 @@ pub mod aliases;
 pub mod create_room;
 pub mod get_event_by_timestamp;
 pub mod get_room_event;
-#[cfg(feature = "unstable-msc3266")]
 pub mod get_summary;
 pub mod initial_sync;
 pub mod report_content;
