@@ -178,7 +178,6 @@ pub mod v3 {
         /// This field uses the unstable prefix defined in [MSC3824].
         ///
         /// [MSC3824]: https://github.com/matrix-org/matrix-spec-proposals/pull/3824
-        #[cfg(feature = "unstable-msc3824")]
         #[serde(
             default,
             skip_serializing_if = "ruma_common::serde::is_default",

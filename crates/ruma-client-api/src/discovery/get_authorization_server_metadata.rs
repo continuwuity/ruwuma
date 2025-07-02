@@ -27,6 +27,7 @@ pub mod msc2965 {
         authentication: None,
         history: {
             unstable => "/_matrix/client/unstable/org.matrix.msc2965/auth_metadata",
+            1.15 => "/_matrix/client/v1/auth_metadata",
         }
     };
 
@@ -82,19 +83,22 @@ pub mod msc2965 {
         /// This should be a URL with no query or fragment components.
         pub issuer: Url,
 
-        /// URL of the authorization server's authorization endpoint ([RFC6749]).
+        /// URL of the authorization server's authorization endpoint ([RFC6749], [MSC4264]).
         ///
+        /// [MSC4264]: https://github.com/matrix-org/matrix-spec-proposals/pull/2964
         /// [RFC6749]: https://datatracker.ietf.org/doc/html/rfc6749
         pub authorization_endpoint: Url,
 
-        /// URL of the authorization server's token endpoint ([RFC6749]).
+        /// URL of the authorization server's token endpoint ([RFC6749], [MSC2964]).
         ///
+        /// [MSC2964]: https://github.com/matrix-org/matrix-spec-proposals/pull/2964
         /// [RFC6749]: https://datatracker.ietf.org/doc/html/rfc6749
         pub token_endpoint: Url,
 
         /// URL of the authorization server's OAuth 2.0 Dynamic Client Registration endpoint
-        /// ([RFC7591]).
+        /// ([RFC7591], [MSC2966]).
         ///
+        /// [MSC2966]: https://github.com/matrix-org/matrix-spec-proposals/pull/2966
         /// [RFC7591]: https://datatracker.ietf.org/doc/html/rfc7591
         #[serde(skip_serializing_if = "Option::is_none")]
         pub registration_endpoint: Option<Url>,
@@ -102,10 +106,11 @@ pub mod msc2965 {
         /// List of the OAuth 2.0 `response_type` values that this authorization server supports.
         ///
         /// Those values are the same as those used with the `response_types` parameter defined by
-        /// OAuth 2.0 Dynamic Client Registration ([RFC7591]).
+        /// OAuth 2.0 Dynamic Client Registration ([RFC7591], [MSC2964]).
         ///
         /// This field must include [`ResponseType::Code`].
         ///
+        /// [MSC2964]: https://github.com/matrix-org/matrix-spec-proposals/pull/2964
         /// [RFC7591]: https://datatracker.ietf.org/doc/html/rfc7591
         pub response_types_supported: BTreeSet<ResponseType>,
 
@@ -115,30 +120,34 @@ pub mod msc2965 {
         ///
         /// This field must include [`ResponseMode::Query`] and [`ResponseMode::Fragment`].
         ///
+        /// MSC2964: https://github.com/matrix-org/matrix-spec-proposals/pull/2964
         /// [OAuth 2.0 Multiple Response Type Encoding Practices]: https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
         pub response_modes_supported: BTreeSet<ResponseMode>,
 
         /// List of the OAuth 2.0 `grant_type` values that this authorization server supports.
         ///
         /// Those values are the same as those used with the `grant_types` parameter defined by
-        /// OAuth 2.0 Dynamic Client Registration ([RFC7591]).
+        /// OAuth 2.0 Dynamic Client Registration ([RFC7591], [MSC2964]).
         ///
         /// This field must include [`GrantType::AuthorizationCode`] and
         /// [`GrantType::RefreshToken`].
         ///
+        /// [MSC2964]: https://github.com/matrix-org/matrix-spec-proposals/pull/2964
         /// [RFC7591]: https://datatracker.ietf.org/doc/html/rfc7591
         pub grant_types_supported: BTreeSet<GrantType>,
 
-        /// URL of the authorization server's OAuth 2.0 revocation endpoint ([RFC7009]).
+        /// URL of the authorization server's OAuth 2.0 revocation endpoint ([RFC7009], [MSC4254]).
         ///
+        /// [MSC4254]: https://github.com/matrix-org/matrix-spec-proposals/pull/4254
         /// [RFC7009]: https://datatracker.ietf.org/doc/html/rfc7009
         pub revocation_endpoint: Url,
 
         /// List of Proof Key for Code Exchange (PKCE) code challenge methods supported by this
-        /// authorization server ([RFC7636]).
+        /// authorization server ([RFC7636], [MSC2964]).
         ///
         /// This field must include [`CodeChallengeMethod::S256`].
         ///
+        /// [MSC2964]: https://github.com/matrix-org/matrix-spec-proposals/pull/2964
         /// [RFC7636]: https://datatracker.ietf.org/doc/html/rfc7636
         pub code_challenge_methods_supported: BTreeSet<CodeChallengeMethod>,
 
