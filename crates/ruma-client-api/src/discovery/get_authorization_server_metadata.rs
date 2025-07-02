@@ -95,6 +95,11 @@ pub mod msc2965 {
         /// [RFC6749]: https://datatracker.ietf.org/doc/html/rfc6749
         pub token_endpoint: Url,
 
+        /// URL of the JSON web key set? Undefined.
+        /// Apparently optional, Element Web doesn't seem to work without it? needs investigating.
+        #[serde(skip_serializing_if = "Option::is_none")]
+        pub jwks_uri: Option<Url>,
+
         /// URL of the authorization server's OAuth 2.0 Dynamic Client Registration endpoint
         /// ([RFC7591], [MSC2966]).
         ///
