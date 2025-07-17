@@ -784,13 +784,9 @@ impl MatrixVersion {
     /// Get the default [`RoomVersionId`] for this `MatrixVersion`.
     pub fn default_room_version(&self) -> RoomVersionId {
         match self {
-            MatrixVersion::V1_0
-            | MatrixVersion::V1_1
-            | MatrixVersion::V1_2 => RoomVersionId::V6,
+            MatrixVersion::V1_0 | MatrixVersion::V1_1 | MatrixVersion::V1_2 => RoomVersionId::V6,
 
-            MatrixVersion::V1_3
-            | MatrixVersion::V1_4
-            | MatrixVersion::V1_5 => RoomVersionId::V9,
+            MatrixVersion::V1_3 | MatrixVersion::V1_4 | MatrixVersion::V1_5 => RoomVersionId::V9,
 
             MatrixVersion::V1_6
             | MatrixVersion::V1_7
@@ -801,8 +797,7 @@ impl MatrixVersion {
             | MatrixVersion::V1_12
             | MatrixVersion::V1_13 => RoomVersionId::V10,
 
-            MatrixVersion::V1_14
-            | MatrixVersion::V1_15 => RoomVersionId::V11,
+            MatrixVersion::V1_14 | MatrixVersion::V1_15 => RoomVersionId::V11,
         }
     }
 }

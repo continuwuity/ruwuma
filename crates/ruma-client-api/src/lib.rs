@@ -40,6 +40,7 @@ pub mod redact;
 pub mod relations;
 #[cfg(feature = "unstable-msc4108")]
 pub mod rendezvous;
+pub mod report_user;
 pub mod room;
 pub mod search;
 pub mod server;
@@ -55,7 +56,6 @@ pub mod typing;
 pub mod uiaa;
 pub mod user_directory;
 pub mod voip;
-pub mod report_user;
 
 use std::fmt;
 

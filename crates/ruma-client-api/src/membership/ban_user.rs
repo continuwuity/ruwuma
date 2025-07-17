@@ -37,7 +37,10 @@ pub mod v3 {
         pub reason: Option<String>,
 
         /// MSC4293: Redact on ban
-        #[serde(skip_serializing_if = "Option::is_none", alias = "org.matrix.msc4293.redact_events")]
+        #[serde(
+            skip_serializing_if = "Option::is_none",
+            alias = "org.matrix.msc4293.redact_events"
+        )]
         pub redact_events: Option<bool>,
     }
 

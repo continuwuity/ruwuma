@@ -6,7 +6,10 @@ pub mod v3 {
     //! `MSC4260` - https://github.com/matrix-org/matrix-spec-proposals/pull/4260
     //! https://spec.matrix.org/v1.15/client-server-api/#post_matrixclientv3usersuseridreport
 
-    use ruma_common::{api::{request, response, Metadata}, metadata, OwnedUserId};
+    use ruma_common::{
+        api::{request, response, Metadata},
+        metadata, OwnedUserId,
+    };
 
     const METADATA: Metadata = metadata! {
         method: POST,

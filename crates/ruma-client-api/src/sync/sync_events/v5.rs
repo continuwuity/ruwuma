@@ -457,11 +457,11 @@ impl Response {
 /// HTTP types related to a [`Response`].
 pub mod response {
     use ruma_common::OneTimeKeyAlgorithm;
-    use ruma_events::{
-        receipt::SyncReceiptEvent, AnyGlobalAccountDataEvent,
-        AnyRoomAccountDataEvent, AnyToDeviceEvent,
-    };
     pub use ruma_events::typing::SyncTypingEvent;
+    use ruma_events::{
+        receipt::SyncReceiptEvent, AnyGlobalAccountDataEvent, AnyRoomAccountDataEvent,
+        AnyToDeviceEvent,
+    };
 
     use super::{
         super::DeviceLists, AnyStrippedStateEvent, AnySyncStateEvent, AnySyncTimelineEvent,
