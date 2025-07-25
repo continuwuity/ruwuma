@@ -94,7 +94,7 @@ impl RoomCreateEventContent {
     ///
     /// The new field, additional creators, is still set to None, and must be manually replaced with
     /// a vector.
-    pub fn new_hydra() -> Self {
+    pub fn new_v12() -> Self {
         #[allow(deprecated)]
         Self {
             creator: None,

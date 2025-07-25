@@ -108,17 +108,6 @@ impl RoomPowerLevelsEventContent {
             notifications: NotificationPowerLevels::default(),
         }
     }
-
-    /// Creates a new `RoomPowerLevelsEventContent` with all-default values, as used in Hydra rooms.
-    pub fn new_hydra() -> Self {
-        // Hydra is the same as v11, however the default power level for tombstones has been
-        // raised to 150.
-        // Room creators always have this power, and can promote anyone to above the default max of
-        // 100 in order to grant them PL150.
-        let mut new = Self::new();
-        new.events.insert(TimelineEventType::RoomTombstone, int!(50));
-        new
-    }
 }
 
 impl Default for RoomPowerLevelsEventContent {
