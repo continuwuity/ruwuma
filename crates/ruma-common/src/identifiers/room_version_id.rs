@@ -83,7 +83,7 @@ impl RoomVersionId {
             Self::V9 => "9",
             Self::V10 => "10",
             Self::V11 => "11",
-            Self::HydraV11 => "org.matrix.hydra.11",
+            Self::HydraV11 => "12",
             Self::_Custom(version) => version.as_str(),
         }
     }
@@ -108,7 +108,7 @@ impl From<RoomVersionId> for String {
             RoomVersionId::V9 => "9".to_owned(),
             RoomVersionId::V10 => "10".to_owned(),
             RoomVersionId::V11 => "11".to_owned(),
-            RoomVersionId::HydraV11 => "org.matrix.hydra.11".to_owned(),
+            RoomVersionId::HydraV11 => "12".to_owned(),
             RoomVersionId::_Custom(version) => version.into(),
         }
     }
