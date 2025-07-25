@@ -327,7 +327,7 @@ pub struct RoomPowerLevels {
     /// This is a mapping from `key` to power level for that notifications key.
     pub notifications: NotificationPowerLevels,
 
-    /// The owners of this room. Only used in [`RoomVersionId::HydraV11`] and later.
+    /// The owners of this room. Only used in [`RoomVersionId::V12`] and later.
     /// This should be an empty vector if the room version is 11 or below.
     pub room_owners: Vec<OwnedUserId>
 }

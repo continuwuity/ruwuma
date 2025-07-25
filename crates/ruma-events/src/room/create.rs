@@ -90,7 +90,7 @@ impl RoomCreateEventContent {
     }
 
     /// Creates a new `RoomCreateEventContent` similar to new_v11, but with the room version set to
-    /// [`RoomVersionId::HydraV11`].
+    /// [`RoomVersionId::V12`].
     ///
     /// The new field, additional creators, is still set to None, and must be manually replaced with
     /// a vector.
@@ -99,7 +99,7 @@ impl RoomCreateEventContent {
         Self {
             creator: None,
             federate: true,
-            room_version: RoomVersionId::HydraV11,
+            room_version: RoomVersionId::V12,
             predecessor: None,
             room_type: None,
             additional_creators: None,
