@@ -1,8 +1,8 @@
 //! `GET /_matrix/client/v1/admin/suspend/{userId}`
 //!
-//! Check and set the suspension status of a target user
+//! Check the suspension status of a target user
 
-pub mod v3 {
+pub mod v1 {
     //! `/_matrix/client/unstable/uk.timedout.msc4323/admin/suspend/{userID}` ([msc])
     //!
     //! [msc]: https://github.com/matrix-org/matrix-spec-proposals/pull/4323
@@ -14,7 +14,7 @@ pub mod v3 {
     use serde::{Deserialize, Serialize};
 
     const METADATA: Metadata = metadata! {
-        method: GET, // OR PUT
+        method: GET,
         rate_limited: false,
         authentication: AccessToken,
         history: {
@@ -28,9 +28,6 @@ pub mod v3 {
         /// The user to look up.
         #[ruma_api(path)]
         pub user_id: OwnedUserId,
-
-        /// Whether to suspend (true) or unsuspend (false) the user. None if just checking status.
-        pub suspended: Option<bool>,
     }
 
     /// Response type for the suspension endpoints
@@ -42,8 +39,8 @@ pub mod v3 {
 
     impl Request {
         /// Creates a new `Request` with the given user id.
-        pub fn new(user_id: OwnedUserId, suspended: Option<bool>) -> Self {
-            Self { user_id, suspended }
+        pub fn new(user_id: OwnedUserId) -> Self {
+            Self { user_id }
         }
     }
 

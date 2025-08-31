@@ -1,3 +1,3 @@
 pub mod whois;
-pub mod suspend;
-pub mod lock;
+pub mod get_suspended;
+pub mod set_suspended;
