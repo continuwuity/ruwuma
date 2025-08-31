@@ -18,7 +18,7 @@ pub mod v1 {
         rate_limited: false,
         authentication: AccessToken,
         history: {
-            unstable => "/_matrix/client/unstable/uk.timedout.msc4323/suspend/admin/:user_id",
+            unstable => "/_matrix/client/unstable/uk.timedout.msc4323/admin/suspend/:user_id",
         }
     };
 
