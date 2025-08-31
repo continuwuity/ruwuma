@@ -41,8 +41,8 @@ pub mod v1 {
 
     impl Request {
         /// Creates a new `Request` with the given user id.
-        pub fn new(user_id: OwnedUserId) -> Self {
-            Self { user_id }
+        pub fn new(user_id: OwnedUserId, suspended: bool) -> Self {
+            Self { user_id, suspended }
         }
     }
 
