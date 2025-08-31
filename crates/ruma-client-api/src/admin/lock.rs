@@ -3,7 +3,7 @@
 //! Check and set the lock status of a target user
 
 pub mod v3 {
-    //! `/_matrix/client/unstable/uk.timedout.msc4323/` ([msc])
+    //! `/_matrix/client/unstable/uk.timedout.msc4323/admin/lock/{userID}` ([msc])
     //!
     //! [msc]: https://github.com/matrix-org/matrix-spec-proposals/pull/4323
 
@@ -18,7 +18,7 @@ pub mod v3 {
         rate_limited: false,
         authentication: AccessToken,
         history: {
-            unstable => "/_matrix/client/unstable/uk.timedout.msc4323/lock/:user_id",
+            unstable => "/_matrix/client/unstable/uk.timedout.msc4323/admin/lock/:user_id",
         }
     };
 
