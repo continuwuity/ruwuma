@@ -23,6 +23,9 @@ event_enum! {
         #[cfg(feature = "unstable-msc2545")]
         #[ruma_enum(ident = ImagePackRooms, alias = "m.image_pack.rooms")]
         "im.ponies.emote_rooms" => super::image_pack,
+        #[cfg(feature = "unstable-msc4155")]
+        #[ruma_enum(ident = InvitePermissionConfig, alias = "m.invite_permission_config")]
+        "org.matrix.msc4155.invite_permission_config" => super::invite_permission_config,
     }
 
     /// Any room account data event.

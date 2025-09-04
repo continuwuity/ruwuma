@@ -232,6 +232,10 @@ pub enum ErrorKind {
     /// M_USER_SUSPENDED
     UserSuspended,
 
+    #[cfg(feature = "unstable-msc4155")]
+    /// M_INVITE_BLOCKED
+    InviteBlocked,
+
     #[doc(hidden)]
     _Custom { errcode: PrivOwnedStr, extra: Extra },
 }
@@ -317,6 +321,9 @@ impl AsRef<str> for ErrorKind {
             Self::Unactionable => "M_UNACTIONABLE",
             Self::UserLocked => "M_USER_LOCKED",
             Self::UserSuspended => "M_USER_SUSPENDED",
+            #[cfg(feature = "unstable-msc4155")]
+            // TODO: Replace with M_INVITE_BLOCKED once MSC4125 is stable
+            Self::InviteBlocked => "ORG.MATRIX.MSC4155.M_INVITE_BLOCKED",
             Self::_Custom { errcode, .. } => &errcode.0,
         }
     }
