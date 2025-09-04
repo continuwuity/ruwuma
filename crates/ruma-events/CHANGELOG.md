@@ -23,6 +23,7 @@ Improvements:
 - Add unstable support for MSC2545 for image packs.
 - Add `is_redacted()` accessor to `Any(Sync){MessageLike/State}Event` event enums
   to know if an event is redacted without needing to clone its content.
+- Add support for MSC4155 behind the `unstable-msc4155` flag.
 
 # 0.30.0
 

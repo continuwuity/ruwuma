@@ -5,6 +5,7 @@ Breaking changes:
 - Use `AuthType` for the `auth_type` of `get_uiaa_fallback_page`'s Request.
 - `get_supported_versions::Response::known_versions()` returns a
   `BTreeSet<MatrixVersion>` instead of a `DoubleEndedIterator`.
+- Add support for MSC4155 behind the `unstable-msc4155` flag.
 
 =======
 Improvements:

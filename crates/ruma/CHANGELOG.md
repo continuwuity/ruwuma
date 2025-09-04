@@ -9,6 +9,7 @@
   feature was removed. `XMatrix` is available in the
   `api::federation::authentication` module.
 - Bump MSRV to 1.81
+- Add support for MSC4155 behind the `unstable-msc4155` flag.
 
 # 0.12.1
 
