@@ -255,6 +255,7 @@ impl<'de> Visitor<'de> for ErrorKindVisitor {
             ErrCode::Unactionable => ErrorKind::Unactionable,
             ErrCode::UserLocked => ErrorKind::UserLocked,
             ErrCode::UserSuspended => ErrorKind::UserSuspended,
+            #[cfg(feature = "unstable-msc4155")]
             ErrCode::InviteBlocked => ErrorKind::InviteBlocked,
             ErrCode::_Custom(errcode) => ErrorKind::_Custom { errcode, extra },
         })

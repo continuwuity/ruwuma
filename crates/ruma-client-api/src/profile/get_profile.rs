@@ -86,7 +86,6 @@ pub mod v3 {
                 displayname,
                 #[cfg(feature = "unstable-msc2448")]
                 blurhash: None,
-                tz: None,
                 custom_profile_fields: BTreeMap::new(),
             }
         }
