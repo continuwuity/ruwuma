@@ -75,12 +75,7 @@ pub struct Request {
 
     /// Controls whether to receive state changes between the previous sync and the **start** of
     /// the timeline, or between the previous sync and the **end** of the timeline.
-    #[cfg(feature = "unstable-msc4222")]
-    #[serde(
-        default,
-        skip_serializing_if = "ruma_common::serde::is_default",
-        rename = "org.matrix.msc4222.use_state_after"
-    )]
+    #[serde(default, skip_serializing_if = "ruma_common::serde::is_default")]
     #[ruma_api(query)]
     pub use_state_after: bool,
 }
@@ -421,8 +416,8 @@ pub enum State {
     /// To get the full list of state changes since the previous sync, the state events in
     /// [`Timeline`] must be added to these events to update the local state.
     ///
-    /// With the `unstable-msc4222` feature, to get this variant, `use_state_after` must be set to
-    /// `false` in the [`Request`], which is the default.
+    /// To get this variant, `use_state_after` must be set to `false` in the [`Request`], which is
+    /// the default.
     #[serde(rename = "state")]
     Before(StateEvents),
 
@@ -432,8 +427,7 @@ pub enum State {
     /// [`Timeline`] must be ignored to update the local state.
     ///
     /// To get this variant, `use_state_after` must be set to `true` in the [`Request`].
-    #[cfg(feature = "unstable-msc4222")]
-    #[serde(rename = "org.matrix.msc4222.state_after")]
+    #[serde(rename = "state_after")]
     After(StateEvents),
 }
 
@@ -447,7 +441,6 @@ impl State {
     pub fn is_empty(&self) -> bool {
         match self {
             Self::Before(state) => state.is_empty(),
-            #[cfg(feature = "unstable-msc4222")]
             Self::After(state) => state.is_empty(),
         }
     }
@@ -725,7 +718,6 @@ mod client_tests {
             full_state: true,
             set_presence: PresenceState::Offline,
             timeout: Some(Duration::from_millis(30000)),
-            #[cfg(feature = "unstable-msc4222")]
             use_state_after: true,
         }
         .try_into_http_request(
@@ -744,8 +736,7 @@ mod client_tests {
         assert!(query.contains("full_state=true"));
         assert!(query.contains("set_presence=offline"));
         assert!(query.contains("timeout=30000"));
-        #[cfg(feature = "unstable-msc4222")]
-        assert!(query.contains("org.matrix.msc4222.use_state_after=true"));
+        assert!(query.contains("use_state_after=true"));
     }
 }
 
@@ -958,7 +949,6 @@ mod server_tests {
     }
 
     #[test]
-    #[cfg(feature = "unstable-msc4222")]
     fn serialize_response_empty_state_after() {
         let joined_room_id = owned_room_id!("!joined:localhost");
         let left_room_id = owned_room_id!("!left:localhost");
@@ -982,12 +972,12 @@ mod server_tests {
                 "rooms": {
                     "join": {
                         joined_room_id: {
-                            "org.matrix.msc4222.state_after": {},
+                            "state_after": {},
                         },
                     },
                     "leave": {
                         left_room_id: {
-                            "org.matrix.msc4222.state_after": {},
+                            "state_after": {},
                         },
                     },
                 },
@@ -996,7 +986,6 @@ mod server_tests {
     }
 
     #[test]
-    #[cfg(feature = "unstable-msc4222")]
     fn serialize_response_non_empty_state_after() {
         let joined_room_id = owned_room_id!("!joined:localhost");
         let left_room_id = owned_room_id!("!left:localhost");
@@ -1021,7 +1010,7 @@ mod server_tests {
                 "rooms": {
                     "join": {
                         joined_room_id: {
-                            "org.matrix.msc4222.state_after": {
+                            "state_after": {
                                 "events": [
                                     event,
                                 ],
@@ -1030,7 +1019,7 @@ mod server_tests {
                     },
                     "leave": {
                         left_room_id: {
-                            "org.matrix.msc4222.state_after": {
+                            "state_after": {
                                 "events": [
                                     event,
                                 ],
