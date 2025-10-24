@@ -1,7 +1,6 @@
-fn default_true() -> bool { true }
-
+//! Server EDU type filtering
 pub mod unstable {
-    //! [spec]: https://github.com/matrix-org/matrix-spec-proposals/pull/4373
+    //! spec: https://github.com/matrix-org/matrix-spec-proposals/pull/4373
 
     use ruma_common::{
         api::{request, response, Metadata},
@@ -26,13 +25,13 @@ pub mod unstable {
     #[response]
     pub struct Response {
         /// Whether presence EDUs should be sent/received
-        #[serde(rename="m.presence", default="default_true")]
+        #[serde(rename="m.presence", default="ruma_common::serde::default_true")]
         pub presence: bool,
         /// Whether read receipt EDUs should be sent/received
-        #[serde(rename="m.receipt", default="default_true")]
+        #[serde(rename="m.receipt", default="ruma_common::serde::default_true")]
         pub receipt: bool,
         /// Whether typing EDUs should be sent/received
-        #[serde(rename="m.typing", default="default_true")]
+        #[serde(rename="m.typing", default="ruma_common::serde::default_true")]
         pub typing: bool
     }
 
