@@ -29,6 +29,7 @@ pub mod room;
 pub mod space;
 pub mod thirdparty;
 pub mod transactions;
+pub mod edutypes;
 
 // Wrapper around `Box<str>` that cannot be used in a meaningful way outside of
 // this crate. Used for string enums because their `_Custom` variant can't be
