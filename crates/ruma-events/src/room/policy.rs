@@ -2,7 +2,6 @@
 //!
 //! [`org.matrix.msc4284.policy`]: https://github.com/matrix-org/matrix-spec-proposals/pull/4284
 
-use ruma_common::serde::Base64;
 use ruma_macros::EventContent;
 use serde::{Deserialize, Serialize};
 
@@ -17,7 +16,7 @@ pub struct RoomPolicyEventContent {
     /// If the value is empty or unreachable, the policy server should be ignored.
     pub via: Option<String>,
     /// The public key this policy server will sign with.
-    pub public_key: Option<Base64>
+    pub public_key: Option<String>
 }
 
 impl RoomPolicyEventContent {
@@ -48,7 +47,6 @@ impl From<String> for PolicyServerResponseContent {
 
 #[cfg(test)]
 mod tests {
-    use ruma_common::serde::Base64;
     use serde_json::{from_value as from_json_value, json, to_value as to_json_value};
 
     use super::RoomPolicyEventContent;
@@ -58,7 +56,7 @@ mod tests {
     fn serialization() {
         let content = RoomPolicyEventContent { 
             via: Some("example.com".to_owned()),
-            public_key: Some(Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s".as_bytes()).expect("valid pubkey"))
+            public_key: Some("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s".to_owned())
         };
 
         let actual = to_json_value(content).unwrap();
@@ -94,7 +92,7 @@ mod tests {
         );
         assert_eq!(
             content.public_key,
-            Some(Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s".as_bytes()).expect("valid pubkey"))
+            Some("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s".to_owned())
         );
     }
 }
