@@ -1,8 +1,9 @@
 //! `POST /_matrix/policy/unstable/org.matrix.msc4284/event/:eventId/check`
 //!
 //! Checks if an event is allowed by the room's policy server.
+//! This is now a fallback behaviour that will be removed later.
 
-pub mod v1 {
+pub mod unstable {
     //! `/policy/unstable/org.matrix.msc4284` ([spec])
     //!
     //! [spec]: https://github.com/matrix-org/matrix-spec-proposals/pull/4284
