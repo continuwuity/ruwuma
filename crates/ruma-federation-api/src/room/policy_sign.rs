@@ -23,13 +23,13 @@ pub mod unstable {
     /// Response type for the `sign` endpoint.
     #[response]
     pub struct Response {
-        /// map[serverName]map["ed25519:policy_server"]string
-        pub signatures: ServerSignatures
+        /// The signatures returned from the policy server (if provided)
+        pub signatures: Option<ServerSignatures>
     }
 
     impl Response {
         /// Creates a new `Response` with the given recommendation.
-        pub fn new(signatures: ServerSignatures) -> Self {
+        pub fn new(signatures: Option<ServerSignatures>) -> Self {
             Self { signatures }
         }
     }
