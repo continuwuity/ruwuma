@@ -24,6 +24,7 @@ pub mod unstable {
     #[response]
     pub struct Response {
         /// The signatures returned from the policy server (if provided)
+        #[ruma_api(body)]
         pub signatures: Option<ServerSignatures>
     }
 
