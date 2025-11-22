@@ -263,7 +263,7 @@ pub fn verify_json(
 /// # Errors
 ///
 /// Returns an error if verification fails.
-fn verify_json_with<V>(
+pub fn verify_json_with<V>(
     verifier: &V,
     public_key: &Base64,
     signature: &Base64,

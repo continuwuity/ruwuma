@@ -50,7 +50,7 @@ pub use self::{
     error::{Error, JsonError, ParseError, VerificationError},
     functions::{
         canonical_json, content_hash, hash_and_sign_event, reference_hash, required_keys,
-        servers_to_check_signatures, sign_json, verify_event, verify_json,
+        servers_to_check_signatures, sign_json, verify_event, verify_json, verify_json_with
     },
     keys::{Ed25519KeyPair, KeyPair, PublicKeyMap, PublicKeySet},
     signatures::Signature,
