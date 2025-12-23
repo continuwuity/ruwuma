@@ -13,7 +13,7 @@ pub mod v1 {
         serde::Raw,
         OwnedEventId, OwnedRoomId,
     };
-    use ruma_events::AnyStrippedStateEvent;
+    use ruma_events::{AnyStateEvent, AnyStrippedStateEvent};
     use serde_json::value::RawValue as RawJsonValue;
 
     const METADATA: Metadata = metadata! {
@@ -46,7 +46,7 @@ pub mod v1 {
     #[response]
     pub struct Response {
         /// State events providing public room metadata.
-        pub knock_room_state: Vec<Raw<AnyStrippedStateEvent>>,
+        pub knock_room_state: Vec<Raw<AnyStateEvent>>,
     }
 
     impl Request {
@@ -58,7 +58,7 @@ pub mod v1 {
 
     impl Response {
         /// Creates a new `Response` with the given public room metadata state events.
-        pub fn new(knock_room_state: Vec<Raw<AnyStrippedStateEvent>>) -> Self {
+        pub fn new(knock_room_state: Vec<Raw<AnyStateEvent>>) -> Self {
             Self { knock_room_state }
         }
     }
