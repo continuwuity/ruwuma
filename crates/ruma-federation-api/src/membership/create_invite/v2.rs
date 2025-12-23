@@ -42,7 +42,7 @@ pub struct Request {
     /// An optional list of events to help the receiver of the invite identify the room.
     /// 
     /// NOTE: As of v1.16, this endpoint now requires full room-formatted PDUs, not stripped state events.
-    pub invite_room_state: Vec<Raw<AnyStateEvent>>,
+    pub invite_room_state: Vec<Box<RawJsonValue>>,
 
     /// An optional list of servers the invited homeserver should attempt to join or leave via,
     /// according to [MSC4125](https://github.com/matrix-org/matrix-spec-proposals/pull/4125).
