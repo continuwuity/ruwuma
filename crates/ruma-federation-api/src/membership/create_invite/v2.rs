@@ -68,7 +68,7 @@ impl Request {
         event_id: OwnedEventId,
         room_version: RoomVersionId,
         event: Box<RawJsonValue>,
-        invite_room_state: Vec<Raw<AnyStateEvent>>,
+        invite_room_state: Vec<Box<RawJsonValue>>,
     ) -> Self {
         Self {
             room_id,
