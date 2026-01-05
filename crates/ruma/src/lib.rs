@@ -133,3 +133,5 @@ pub use js_int::{
 pub use js_option::JsOption;
 pub use ruma_common::*;
 pub use web_time as time;
+
+pub use meowlnir_antispam;

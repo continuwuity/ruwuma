@@ -334,6 +334,7 @@ ruma-federation-api = { workspace = true, optional = true }
 ruma-identity-service-api = { workspace = true, optional = true }
 ruma-identifiers-validation = { workspace = true, optional = true }
 ruma-push-gateway-api = { workspace = true, optional = true }
+meowlnir-antispam = { workspace = true }
 
 [dev-dependencies]
 serde = { workspace = true }
