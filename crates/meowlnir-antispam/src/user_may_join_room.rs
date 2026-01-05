@@ -24,9 +24,9 @@ pub mod v1 {
         #[ruma_api(path)]
         pub management_room_id: OwnedRoomId,
         /// The user trying to join a room
-        pub user_id: OwnedUserId,
+        pub user: OwnedUserId,
         /// The room the user is trying to join
-        pub room_id: OwnedRoomId,
+        pub room: OwnedRoomId,
         /// Whether the user was invited to this room
         pub is_invited: bool,
     }
@@ -40,11 +40,11 @@ pub mod v1 {
         /// Creates a new empty `Request`.
         pub fn new(
             management_room_id: OwnedRoomId,
-            user_id: OwnedUserId,
-            room_id: OwnedRoomId,
+            user: OwnedUserId,
+            room: OwnedRoomId,
             is_invited: bool,
         ) -> Self {
-            Self { management_room_id, user_id, room_id, is_invited }
+            Self { management_room_id, user, room, is_invited }
         }
     }
 

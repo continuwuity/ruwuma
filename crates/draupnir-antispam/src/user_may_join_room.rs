@@ -21,9 +21,9 @@ pub mod v1 {
     #[request]
     pub struct Request {
         /// The user trying to join a room
-        pub user_id: OwnedUserId,
+        pub user: OwnedUserId,
         /// The room the user is trying to join
-        pub room_id: OwnedRoomId,
+        pub room: OwnedRoomId,
         /// Whether the user was invited to this room
         pub is_invited: bool,
     }
@@ -35,8 +35,8 @@ pub mod v1 {
 
     impl Request {
         /// Creates a new empty `Request`.
-        pub fn new(user_id: OwnedUserId, room_id: OwnedRoomId, is_invited: bool) -> Self {
-            Self { user_id, room_id, is_invited }
+        pub fn new(user: OwnedUserId, room: OwnedRoomId, is_invited: bool) -> Self {
+            Self { user, room, is_invited }
         }
     }
 
