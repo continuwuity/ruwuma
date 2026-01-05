@@ -205,6 +205,8 @@ impl Restricted {
 pub enum AllowRule {
     /// Joining is allowed if a user is already a member of the room with the id `room_id`.
     RoomMembership(RoomMembership),
+    /// Joining is allowed if the antispam service approves it.
+    UnstableSpamChecker,
 
     #[doc(hidden)]
     _Custom(Box<CustomAllowRule>),
@@ -263,6 +265,7 @@ impl<'de> Deserialize<'de> for AllowRule {
 
         match rule_type.as_deref() {
             Some("m.room_membership") => from_raw_json_value(&json).map(Self::RoomMembership),
+            Some("fi.mau.spam_checker") => Ok(Self::UnstableSpamChecker),
             Some(_) => from_raw_json_value(&json).map(Self::_Custom),
             None => Err(D::Error::missing_field("type")),
         }
