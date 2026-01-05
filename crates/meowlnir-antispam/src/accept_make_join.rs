@@ -7,52 +7,52 @@
 //! - https://mau.dev/maunium/synapse/-/blob/52741d3/synapse/handlers/event_auth.py#L280-292
 
 pub mod v1 {
-	use ruma_common::{
-		api::{request, response, Metadata},
-		metadata, OwnedRoomId, OwnedUserId,
-	};
+    use ruma_common::{
+        api::{request, response, Metadata},
+        metadata, OwnedRoomId, OwnedUserId,
+    };
 
-	const METADATA: Metadata = metadata! {
+    const METADATA: Metadata = metadata! {
         method: POST,
         rate_limited: false,
-        authentication: AccessToken,
+        authentication: AppserviceToken,
         history: {
             1.0 => "/_meowlnir/antispam/:management_room_id/accept_make_join",
         }
     };
 
-	/// Request type for the `accept_make_join` callback.
-	#[request]
-	pub struct Request {
-		/// The relevant management room
-		#[ruma_api(path)]
-		pub management_room_id: OwnedRoomId,
-		/// The user trying to join a room
-		pub user_id: OwnedUserId,
-		/// The room the user is trying to join
-		pub room_id: OwnedRoomId,
-	}
+    /// Request type for the `accept_make_join` callback.
+    #[request]
+    pub struct Request {
+        /// The relevant management room
+        #[ruma_api(path)]
+        pub management_room_id: OwnedRoomId,
+        /// The user trying to join a room
+        pub user_id: OwnedUserId,
+        /// The room the user is trying to join
+        pub room_id: OwnedRoomId,
+    }
 
-	/// Response type for the `accept_make_join` callback.
-	#[response]
-	#[derive(Default)]
-	pub struct Response {}
+    /// Response type for the `accept_make_join` callback.
+    #[response]
+    #[derive(Default)]
+    pub struct Response {}
 
-	impl Request {
-		/// Creates a new empty `Request`.
-		pub fn new(
-			management_room_id: OwnedRoomId,
-			user_id: OwnedUserId,
-			room_id: OwnedRoomId,
-		) -> Self {
-			Self { management_room_id, user_id, room_id }
-		}
-	}
+    impl Request {
+        /// Creates a new empty `Request`.
+        pub fn new(
+            management_room_id: OwnedRoomId,
+            user_id: OwnedUserId,
+            room_id: OwnedRoomId,
+        ) -> Self {
+            Self { management_room_id, user_id, room_id }
+        }
+    }
 
-	impl Response {
-		/// Creates a new empty `Response`.
-		pub fn new() -> Self {
-			Self::default()
-		}
-	}
+    impl Response {
+        /// Creates a new empty `Response`.
+        pub fn new() -> Self {
+            Self::default()
+        }
+    }
 }

@@ -1,0 +1,33 @@
+[package]
+description = "Types for the endpoints in the Draupnir antispam API."
+homepage = "https://ruma.dev/"
+keywords = ["matrix", "chat", "messaging", "ruma"]
+license = "MIT"
+name = "draupnir-antispam"
+readme = "README.md"
+repository = "https://github.com/ruma/ruma"
+version = "0.1.0"
+edition = "2021"
+rust-version = { workspace = true }
+
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+default = ["client", "server"]
+client = []
+server = []
+
+unstable-exhaustive-types = []
+unstable-msc3202 = []
+unstable-msc4203 = []
+
+[dependencies]
+ruma-common = { workspace = true, features = ["api"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+
+[lints]
+workspace = true

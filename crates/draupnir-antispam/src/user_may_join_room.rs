@@ -1,6 +1,6 @@
-//! `POST /_meowlnir/antispam/*/user_may_join_room`
+//! `POST /api/1/spam_check/user_may_join_room`
 //!
-//! Endpoint to track invite joins via Meowlnir anti-spam
+//! Endpoint that checks whether a user may join a given room via Draupnir anti-spam
 
 pub mod v1 {
     use ruma_common::{
@@ -13,16 +13,13 @@ pub mod v1 {
         rate_limited: false,
         authentication: AppserviceToken,
         history: {
-            1.0 => "/_meowlnir/antispam/:management_room_id/user_may_join_room",
+            1.0 => "/api/1/spam_check/user_may_join_room",
         }
     };
 
     /// Request type for the `user_may_join_room` callback.
     #[request]
     pub struct Request {
-        /// The relevant management room
-        #[ruma_api(path)]
-        pub management_room_id: OwnedRoomId,
         /// The user trying to join a room
         pub user_id: OwnedUserId,
         /// The room the user is trying to join
@@ -38,13 +35,8 @@ pub mod v1 {
 
     impl Request {
         /// Creates a new empty `Request`.
-        pub fn new(
-            management_room_id: OwnedRoomId,
-            user_id: OwnedUserId,
-            room_id: OwnedRoomId,
-            is_invited: bool,
-        ) -> Self {
-            Self { management_room_id, user_id, room_id, is_invited }
+        pub fn new(user_id: OwnedUserId, room_id: OwnedRoomId, is_invited: bool) -> Self {
+            Self { user_id, room_id, is_invited }
         }
     }
 
