@@ -1,0 +1,22 @@
+[package]
+name = "continuwuity-admin-api"
+version = "0.1.0"
+edition = "2021"
+rust-version.workspace = true
+
+[features]
+default = ["client", "server"]
+client = []
+server = []
+
+unstable-exhaustive-types = []
+unstable-msc3202 = []
+unstable-msc4203 = []
+
+[dependencies]
+ruma-common = { workspace = true, features = ["api"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true
