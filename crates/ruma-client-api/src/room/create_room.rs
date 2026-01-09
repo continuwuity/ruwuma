@@ -82,8 +82,14 @@ pub mod v3 {
         pub room_alias_name: Option<String>,
 
         /// The desired custom room ID, local part or fully qualified.
+        ///
+        /// If the room is version 12, this is the expected room ID to use for the room.
         #[serde(alias = "fi.mau.room_id", skip_serializing_if = "Option::is_none")]
         pub room_id: Option<String>,
+
+        /// The desired PDU timestamp (to permit custom v12 hash prefixes)
+        #[serde(alias = "fi.mau.origin_server_ts", skip_serializing_if = "Option::is_none")]
+        pub origin_server_ts: Option<u64>,
 
         /// Room version to set for the room.
         ///
