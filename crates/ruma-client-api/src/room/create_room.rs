@@ -13,7 +13,7 @@ pub mod v3 {
         metadata,
         room::RoomType,
         serde::{Raw, StringEnum},
-        OwnedRoomId, OwnedUserId, RoomVersionId,
+        MilliSecondsSinceUnixEpoch, OwnedRoomId, OwnedUserId, RoomVersionId,
     };
     use ruma_events::{
         room::{
@@ -89,7 +89,7 @@ pub mod v3 {
 
         /// The desired PDU timestamp (to permit custom v12 hash prefixes)
         #[serde(alias = "fi.mau.origin_server_ts", skip_serializing_if = "Option::is_none")]
-        pub origin_server_ts: Option<u64>,
+        pub origin_server_ts: Option<MilliSecondsSinceUnixEpoch>,
 
         /// Room version to set for the room.
         ///
