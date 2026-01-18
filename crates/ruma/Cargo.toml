@@ -336,6 +336,7 @@ ruma-identifiers-validation = { workspace = true, optional = true }
 ruma-push-gateway-api = { workspace = true, optional = true }
 meowlnir-antispam = { workspace = true }
 draupnir-antispam = { workspace = true }
+continuwuity-admin-api = { workspace = true }
 
 [dev-dependencies]
 serde = { workspace = true }
