@@ -25,6 +25,7 @@ enum Field<'de> {
     Status,
     Body,
     CurrentVersion,
+    Sender,
     Other(Cow<'de, str>),
 }
 
@@ -38,6 +39,7 @@ impl<'de> Field<'de> {
             "admin_contact" => Self::AdminContact,
             "status" => Self::Status,
             "body" => Self::Body,
+            "sender" => Self::Sender,
             "current_version" => Self::CurrentVersion,
             _ => Self::Other(s),
         }
@@ -105,6 +107,7 @@ impl<'de> Visitor<'de> for ErrorKindVisitor {
         let mut status = None;
         let mut body = None;
         let mut current_version = None;
+        let mut sender = None;
         let mut extra = BTreeMap::new();
 
         macro_rules! set_field {
@@ -130,6 +133,7 @@ impl<'de> Visitor<'de> for ErrorKindVisitor {
             (@variant_containing status) => { ErrCode::BadStatus };
             (@variant_containing body) => { ErrCode::BadStatus };
             (@variant_containing current_version) => { ErrCode::WrongRoomKeysVersion };
+            (@variant_containing sender) => { ErrCode::SenderIgnored };
             (@inner $field:ident) => {
                 {
                     if $field.is_some() {
@@ -150,6 +154,7 @@ impl<'de> Visitor<'de> for ErrorKindVisitor {
                 Field::Status => set_field!(status),
                 Field::Body => set_field!(body),
                 Field::CurrentVersion => set_field!(current_version),
+                Field::Sender => set_field!(sender),
                 Field::Other(other) => match extra.entry(other.into_owned()) {
                     Entry::Vacant(v) => {
                         v.insert(map.next_value()?);
@@ -257,7 +262,12 @@ impl<'de> Visitor<'de> for ErrorKindVisitor {
             ErrCode::UserSuspended => ErrorKind::UserSuspended,
             #[cfg(feature = "unstable-msc4155")]
             ErrCode::InviteBlocked => ErrorKind::InviteBlocked,
-            ErrCode::SenderIgnored => ErrorKind::SenderIgnored,
+            ErrCode::SenderIgnored => ErrorKind::SenderIgnored {
+                sender: sender.map(from_json_value)
+                    .transpose()
+                    .map_err(de::Error::custom)?
+                    .unwrap_or_default(),
+            },
             ErrCode::_Custom(errcode) => ErrorKind::_Custom { errcode, extra },
         })
     }
