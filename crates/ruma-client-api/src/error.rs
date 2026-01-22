@@ -997,4 +997,51 @@ mod tests {
             })
         );
     }
+
+    #[test]
+    fn serialize_sender_ignored_with_sender() {
+        let error = Error::new(
+            http::StatusCode::NOT_FOUND,
+            ErrorBody::Standard {
+                kind: ErrorKind::SenderIgnored {
+                    sender: Some("@sender:example.com".parse().unwrap()),
+                },
+                message: "You have ignored the sender of this event".to_owned(),
+            },
+        );
+        let response = error.try_into_http_response::<Vec<u8>>().unwrap();
+        assert_eq!(response.status(), http::StatusCode::NOT_FOUND);
+        let json_body: JsonValue = from_json_slice(response.body()).unwrap();
+        assert_eq!(
+            json_body,
+            json!({
+                "errcode": "UK.TIMEDOUT.MSC4406.SENDER_IGNORED",
+                "error": "You have ignored the sender of this event",
+                "sender": "@sender:example.com",
+            })
+        );
+    }
+
+    #[test]
+    fn serialize_sender_ignored_without_sender() {
+        let error = Error::new(
+            http::StatusCode::NOT_FOUND,
+            ErrorBody::Standard {
+                kind: ErrorKind::SenderIgnored {
+                    sender: None,
+                },
+                message: "You have ignored the sender of this event".to_owned(),
+            },
+        );
+        let response = error.try_into_http_response::<Vec<u8>>().unwrap();
+        assert_eq!(response.status(), http::StatusCode::NOT_FOUND);
+        let json_body: JsonValue = from_json_slice(response.body()).unwrap();
+        assert_eq!(
+            json_body,
+            json!({
+                "errcode": "UK.TIMEDOUT.MSC4406.SENDER_IGNORED",
+                "error": "You have ignored the sender of this event",
+            })
+        );
+    }
 }
