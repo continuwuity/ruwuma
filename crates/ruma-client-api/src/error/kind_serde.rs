@@ -367,6 +367,9 @@ impl Serialize for ErrorKind {
             Self::ResourceLimitExceeded { admin_contact } => {
                 st.serialize_entry("admin_contact", admin_contact)?;
             }
+            Self::SenderIgnored { sender: Some(sender) } => {
+                st.serialize_entry("sender", sender)?;
+            }
             Self::_Custom { extra, .. } => {
                 for (k, v) in &extra.0 {
                     st.serialize_entry(k, v)?;
