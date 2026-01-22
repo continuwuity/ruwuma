@@ -4,16 +4,13 @@ use std::{collections::BTreeMap, fmt, str::FromStr, sync::Arc};
 
 use as_variant::as_variant;
 use bytes::{BufMut, Bytes};
-use ruma_common::{
-    api::{
-        error::{
-            FromHttpResponseError, HeaderDeserializationError, HeaderSerializationError,
-            IntoHttpError, MatrixErrorBody,
-        },
-        EndpointError, OutgoingResponse,
+use ruma_common::{api::{
+    error::{
+        FromHttpResponseError, HeaderDeserializationError, HeaderSerializationError,
+        IntoHttpError, MatrixErrorBody,
     },
-    RoomVersionId,
-};
+    EndpointError, OutgoingResponse,
+}, OwnedUserId, RoomVersionId};
 use serde::{Deserialize, Serialize};
 use serde_json::{from_slice as from_json_slice, Value as JsonValue};
 use web_time::{Duration, SystemTime};
@@ -236,7 +233,9 @@ pub enum ErrorKind {
     /// M_INVITE_BLOCKED
     InviteBlocked,
 
-    SenderIgnored,
+    SenderIgnored {
+        sender: Option<OwnedUserId>
+    },
 
     #[doc(hidden)]
     _Custom { errcode: PrivOwnedStr, extra: Extra },
