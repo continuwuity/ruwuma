@@ -236,6 +236,8 @@ pub enum ErrorKind {
     /// M_INVITE_BLOCKED
     InviteBlocked,
 
+    SenderIgnored,
+
     #[doc(hidden)]
     _Custom { errcode: PrivOwnedStr, extra: Extra },
 }
@@ -324,6 +326,8 @@ impl AsRef<str> for ErrorKind {
             #[cfg(feature = "unstable-msc4155")]
             // TODO: Replace with M_INVITE_BLOCKED once MSC4125 is stable
             Self::InviteBlocked => "ORG.MATRIX.MSC4155.M_INVITE_BLOCKED",
+            // TODO: Replace with M_SENDER_IGNORED once MSC4406 is stable
+            Self::SenderIgnored => "UK.TIMEDOUT.MSC4406.SENDER_IGNORED",
             Self::_Custom { errcode, .. } => &errcode.0,
         }
     }

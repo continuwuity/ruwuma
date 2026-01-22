@@ -257,6 +257,7 @@ impl<'de> Visitor<'de> for ErrorKindVisitor {
             ErrCode::UserSuspended => ErrorKind::UserSuspended,
             #[cfg(feature = "unstable-msc4155")]
             ErrCode::InviteBlocked => ErrorKind::InviteBlocked,
+            ErrCode::SenderIgnored => ErrorKind::SenderIgnored,
             ErrCode::_Custom(errcode) => ErrorKind::_Custom { errcode, extra },
         })
     }
@@ -320,6 +321,7 @@ enum ErrCode {
     UserSuspended,
     #[cfg(feature = "unstable-msc4155")]
     InviteBlocked,
+    SenderIgnored,
     _Custom(PrivOwnedStr),
 }
 
