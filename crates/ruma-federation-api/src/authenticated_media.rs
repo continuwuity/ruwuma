@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod get_content;
 pub mod get_content_thumbnail;
+pub mod redact;
 
 /// The `multipart/mixed` mime "essence".
 const MULTIPART_MIXED: &str = "multipart/mixed";
