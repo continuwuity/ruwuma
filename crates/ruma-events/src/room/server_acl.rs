@@ -102,11 +102,15 @@ impl RoomServerAclEventContent {
     }
 
     fn matches(a: &[String], s: &str) -> bool {
-        a.iter().map(String::as_str).any(|a| WildMatch::new(a).matches(s))
+        a.iter()
+            .any(|a| {
+                WildMatch::new(a.to_lowercase().as_str())
+                    .matches(s.to_lowercase().as_str())
+            })
     }
 
     fn contains(a: &[String], s: &str) -> bool {
-        a.iter().map(String::as_str).any(|a| a == s)
+        a.iter().any(|a| a.to_lowercase() == s.to_lowercase())
     }
 }
 
@@ -221,5 +225,20 @@ mod tests {
         };
         assert!(!acl_event.is_allowed(server_name!("[2001:db8:1234::2]")));
         assert!(acl_event.is_allowed(server_name!("[2001:db8:1234::1]")));
+    }
+
+    #[test]
+    fn acl_case_insensitive() {
+        let acl_event = RoomServerAclEventContent {
+            allow_ip_literals: false,
+            allow: vec!["Conduit.RS".to_owned()],
+            deny: vec!["Matrix.ORG".to_owned()],
+        };
+        assert!(!acl_event.is_allowed(server_name!("Matrix.ORG")));
+        assert!(!acl_event.is_allowed(server_name!("matrix.ORG")));
+        assert!(!acl_event.is_allowed(server_name!("MATRIX.ORG")));
+        assert!(!acl_event.is_allowed(server_name!("matrix.org")));
+        assert!(acl_event.is_allowed(server_name!("Conduit.RS")));
+        assert!(acl_event.is_allowed(server_name!("conduit.rs")));
     }
 }
