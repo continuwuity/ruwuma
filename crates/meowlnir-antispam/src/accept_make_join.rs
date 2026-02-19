@@ -17,7 +17,7 @@ pub mod v1 {
         rate_limited: false,
         authentication: AppserviceToken,
         history: {
-            1.0 => "/_meowlnir/antispam/:management_room_id/accept_make_join",
+            1.0 => "/_meowlnir/antispam/{management_room_id}/accept_make_join",
         }
     };
 

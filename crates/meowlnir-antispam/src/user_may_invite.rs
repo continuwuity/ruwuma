@@ -13,7 +13,7 @@ pub mod v1 {
         rate_limited: false,
         authentication: AppserviceToken,
         history: {
-            1.0 => "/_meowlnir/antispam/:management_room_id/user_may_invite",
+            1.0 => "/_meowlnir/antispam/{management_room_id}/user_may_invite",
         }
     };
 
