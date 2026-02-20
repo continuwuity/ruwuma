@@ -22,6 +22,7 @@ base64 = { workspace = true }
 ed25519-dalek = { version = "2.0.0", features = ["pkcs8", "rand_core"] }
 pkcs8 = { version = "0.10.0", features = ["alloc"] }
 rand = { workspace = true }
+rand_core = { version = "0.6.4", features = ["getrandom"] }
 ruma-common = { workspace = true, features = ["canonical-json"] }
 serde_json = { workspace = true }
 sha2 = "0.10.6"

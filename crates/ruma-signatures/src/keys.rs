@@ -9,6 +9,7 @@ use ed25519_dalek::{pkcs8::ALGORITHM_OID, SecretKey, Signer, SigningKey, PUBLIC_
 use pkcs8::{
     der::zeroize::Zeroizing, DecodePrivateKey, EncodePrivateKey, ObjectIdentifier, PrivateKeyInfo,
 };
+use rand_core::OsRng;
 use ruma_common::{serde::Base64, SigningKeyAlgorithm, SigningKeyId};
 
 use crate::{signatures::Signature, Error, ParseError};
@@ -138,7 +139,7 @@ impl Ed25519KeyPair {
     ///
     /// Returns an error if the generation failed.
     pub fn generate() -> Result<Zeroizing<Vec<u8>>, Error> {
-        let signing_key = SigningKey::generate(&mut rand::rngs::OsRng);
+        let signing_key = SigningKey::generate(&mut OsRng);
         Ok(signing_key.to_pkcs8_der().map_err(Error::DerParse)?.to_bytes())
     }
 
