@@ -17,7 +17,6 @@ const METADATA: Metadata = metadata! {
 	authentication: None,
 	history: {
 		unstable => "/_matrix/client/unstable/org.matrix.msc4143/rtc/transports",
-		1.15 => "/_matrix/client/v1/rtc/transports",
 	}
 };
 
