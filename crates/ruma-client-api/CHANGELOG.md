@@ -15,6 +15,9 @@ Improvements:
 
 - Add support for the authorization server metadata endpoint, according to the
   latest draft of MSC2965.
+- Add `discovery::get_rtc_transports` endpoint for MSC4143 RTC transport
+  discovery, available at `/_matrix/client/v1/rtc/transports` (stable) and
+  `/_matrix/client/unstable/org.matrix.msc4143/rtc/transports` (unstable).
 
 # 0.20.1
 
