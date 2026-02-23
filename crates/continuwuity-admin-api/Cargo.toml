@@ -15,6 +15,7 @@ unstable-msc4203 = []
 
 [dependencies]
 ruma-common = { workspace = true, features = ["api"] }
+ruma-events = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 
