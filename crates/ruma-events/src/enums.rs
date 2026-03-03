@@ -154,7 +154,7 @@ event_enum! {
         #[ruma_enum(alias = "m.member_hints")]
         "io.element.functional_members" => super::member_hints,
         #[cfg(feature = "unstable-msc4284")]
-        #[ruma_enum(alias = "m.room.policy")]
+        #[ruma_enum(ident = RoomPolicy, alias = "m.room.policy")]
         "org.matrix.msc4284.policy" => super::room::policy,
     }
 
