@@ -23,14 +23,14 @@ pub mod unstable {
     /// Response type for the `sign` endpoint.
     #[response]
     pub struct Response {
-        /// The signatures returned from the policy server (if provided)
+        /// The signatures returned from the policy server
         #[ruma_api(body)]
-        pub signatures: Option<ServerSignatures>
+        pub signatures: ServerSignatures
     }
 
     impl Response {
         /// Creates a new `Response` with the given recommendation.
-        pub fn new(signatures: Option<ServerSignatures>) -> Self {
+        pub fn new(signatures: ServerSignatures) -> Self {
             Self { signatures }
         }
     }
