@@ -4,7 +4,6 @@ homepage = "https://ruma.dev/"
 keywords = ["matrix", "chat", "messaging", "ruma"]
 license = "MIT"
 name = "meowlnir-antispam"
-readme = "README.md"
 repository = "https://github.com/ruma/ruma"
 version = "0.1.0"
 edition = "2021"
