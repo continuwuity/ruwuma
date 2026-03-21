@@ -591,7 +591,7 @@ pub fn verify_event(
 
             let public_key = match public_keys.get(key_id) {
                 Some(public_key) => public_key,
-                None => return Err(VerificationError::UnknownPublicKeysForSignature.into()),
+                None => continue,
             };
 
             let signature = match signature {
