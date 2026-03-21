@@ -6,7 +6,7 @@ use std::collections::BTreeMap;
 use ruma_macros::EventContent;
 use serde::{Deserialize, Serialize};
 use ruma_common::serde::Base64;
-use ruma_common::serde::base64::{Standard, UrlSafe};
+use ruma_common::serde::base64::UrlSafe;
 use crate::EmptyStateKey;
 
 #[derive(Clone, Debug, Deserialize, Serialize, EventContent)]

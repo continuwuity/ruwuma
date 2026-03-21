@@ -1,9 +1,9 @@
-//! `POST /_matrix/policy/unstable/org.matrix.msc4284/sign`
+//! `POST /_matrix/policy/v1/sign`
 //!
 //! Asks a policy server to sign our event
 
-pub mod unstable {
-    //! `/policy/unstable/org.matrix.msc4284` ([spec])
+pub mod v1 {
+    //! `/_matrix/policy/v1/sign` ([spec])
     //!
     //! [spec]: https://github.com/matrix-org/matrix-spec-proposals/pull/4284
     use ruma_common::{
@@ -17,6 +17,7 @@ pub mod unstable {
         authentication: ServerSignatures,
         history: {
             unstable => "/_matrix/policy/unstable/org.matrix.msc4284/sign",
+            1.18 => "/_matrix/policy/v1/sign",
         }
     };
 
@@ -25,12 +26,12 @@ pub mod unstable {
     pub struct Response {
         /// The signatures returned from the policy server
         #[ruma_api(body)]
-        pub signatures: ServerSignatures
+        pub signatures: Option<ServerSignatures>
     }
 
     impl Response {
         /// Creates a new `Response` with the given recommendation.
-        pub fn new(signatures: ServerSignatures) -> Self {
+        pub fn new(signatures: Option<ServerSignatures>) -> Self {
             Self { signatures }
         }
     }
