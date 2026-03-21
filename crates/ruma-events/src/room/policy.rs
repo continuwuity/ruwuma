@@ -11,7 +11,45 @@ use crate::EmptyStateKey;
 
 #[derive(Clone, Debug, Deserialize, Serialize, EventContent)]
 #[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
-#[ruma_event(type = "org.matrix.msc4284.policy", kind = State, state_key_type = EmptyStateKey)]
+#[ruma_event(type="org.matrix.msc4284.policy",kind=State,state_key_type=EmptyStateKey)]
+pub struct UnstableRoomPolicyEventContent {
+    /// The server name of the room's policy server.
+    ///
+    /// If the value is empty, the policy server should be ignored.
+    pub via: Option<String>,
+
+    /// The public key this policy server will sign with.
+    ///
+    /// If omitted, public_keys must be present.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub public_key: Option<Base64<UrlSafe, Vec<u8>>>,
+
+    /// The public keys this policy server may sign with.
+    ///
+    /// If omitted, public_key must be present.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub public_keys: Option<BTreeMap<String, Base64<UrlSafe, Vec<u8>>>>,
+}
+
+impl UnstableRoomPolicyEventContent {
+    /// Create an empty `UnstableRoomPolicyEventContent`.
+    pub fn new() -> Self {
+        Self { via: None, public_key: None, public_keys: None }
+    }
+
+    pub fn effective_key(&self) -> Result<Base64<UrlSafe, Vec<u8>>, Box<dyn std::error::Error>> {
+        if let Some(keys) = &self.public_keys {
+            if let Some(key) = keys.get("ed25519") {
+                return Ok(key.clone());
+            };
+        }
+        self.public_key.clone().ok_or_else(|| "No public key in configuration".into())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, EventContent)]
+#[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
+#[ruma_event(type="m.room,policy",kind=State,state_key_type=EmptyStateKey)]
 pub struct RoomPolicyEventContent {
     /// The server name of the room's policy server.
     ///
@@ -71,12 +109,12 @@ mod tests {
     use std::collections::BTreeMap;
     use serde_json::{from_value as from_json_value, json, to_value as to_json_value};
     use ruma_common::serde::Base64;
-    use super::RoomPolicyEventContent;
-    use crate::OriginalStateEvent;
+    use super::{RoomPolicyEventContent, UnstableRoomPolicyEventContent};
+    use crate::{EventContent, OriginalStateEvent};
 
     #[test]
     fn no_public_keys() {
-        let content = RoomPolicyEventContent { 
+        let content = UnstableRoomPolicyEventContent {
             via: Some("example.com".to_owned()),
             public_key: Some(
                 Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s")
@@ -97,7 +135,7 @@ mod tests {
 
     #[test]
     fn no_public_key() {
-        let content = RoomPolicyEventContent {
+        let content = UnstableRoomPolicyEventContent {
             via: Some("example.com".to_owned()),
             public_key: None,
             public_keys: Some(
@@ -129,7 +167,7 @@ mod tests {
                 "via": "example.com",
                 "public_key": "6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s"
             },
-            "event_id": "123:example.com",
+            "event_id": "$123:example.com",
             "origin_server_ts": 1,
             "room_id": "!123456:example.com",
             "sender": "@carl:example.com",
@@ -138,7 +176,7 @@ mod tests {
             "unsigned": {}
         });
 
-        let content = from_json_value::<OriginalStateEvent<RoomPolicyEventContent>>(json_data)
+        let content = from_json_value::<OriginalStateEvent<UnstableRoomPolicyEventContent>>(json_data)
             .unwrap()
             .content;
         assert_eq!(
@@ -161,7 +199,7 @@ mod tests {
                     "ed25519": "6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s"
                 }
             },
-            "event_id": "123:example.com",
+            "event_id": "$123:example.com",
             "origin_server_ts": 1,
             "room_id": "!123456:example.com",
             "sender": "@carl:example.com",
@@ -169,7 +207,7 @@ mod tests {
             "type": "org.matrix.msc4284.policy"
         });
 
-        let content = from_json_value::<OriginalStateEvent<RoomPolicyEventContent>>(json_data)
+        let content = from_json_value::<OriginalStateEvent<UnstableRoomPolicyEventContent>>(json_data)
             .unwrap()
             .content;
         assert_eq!(
@@ -193,7 +231,7 @@ mod tests {
                     "ed25519": "6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s"
                 }
             },
-            "event_id": "123:example.com",
+            "event_id": "$123:example.com",
             "origin_server_ts": 1,
             "room_id": "!123456:example.com",
             "sender": "@carl:example.com",
@@ -201,7 +239,7 @@ mod tests {
             "type": "org.matrix.msc4284.policy"
         });
 
-        let content = from_json_value::<OriginalStateEvent<RoomPolicyEventContent>>(json_data)
+        let content = from_json_value::<OriginalStateEvent<UnstableRoomPolicyEventContent>>(json_data)
             .unwrap()
             .content;
         assert_eq!(
@@ -225,7 +263,7 @@ mod tests {
                     "ed25519": "6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s"
                 }
             },
-            "event_id": "123:example.com",
+            "event_id": "$123:example.com",
             "origin_server_ts": 1,
             "room_id": "!123456:example.com",
             "sender": "@carl:example.com",
@@ -233,7 +271,7 @@ mod tests {
             "type": "org.matrix.msc4284.policy"
         });
 
-        let content = from_json_value::<OriginalStateEvent<RoomPolicyEventContent>>(json_data)
+        let content = from_json_value::<OriginalStateEvent<UnstableRoomPolicyEventContent>>(json_data)
             .unwrap()
             .content;
         assert_eq!(
@@ -245,5 +283,45 @@ mod tests {
             Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s")
                 .expect("failed to parse base64 key")
         );
+    }
+
+    #[test]
+    fn legacy_state_event() {
+        let json_data = json!({
+            "content": {
+                "via": "example.com",
+                "public_key": "6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s"
+            },
+            "event_id": "$123:example.com",
+            "origin_server_ts": 1,
+            "room_id": "!123456:example.com",
+            "sender": "@carl:example.com",
+            "state_key": "",
+            "type": "org.matrix.msc4284.policy"
+        });
+        let event = from_json_value::<OriginalStateEvent<UnstableRoomPolicyEventContent>>(json_data).unwrap();
+        assert_eq!(event.content.via, Some("example.com".to_owned()));
+        assert_eq!(event.content.effective_key().expect("Effective key should be present"), Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s").expect("failed to parse base64 key"));
+        assert_eq!(event.content.event_type(), "org.matrix.msc4284.policy".into());
+    }
+
+    #[test]
+    fn modern_state_event() {
+        let json_data = json!({
+            "content": {
+                "via": "example.com",
+                "public_key": "6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s"
+            },
+            "event_id": "$123:example.com",
+            "origin_server_ts": 1,
+            "room_id": "!123456:example.com",
+            "sender": "@carl:example.com",
+            "state_key": "",
+            "type": "org.matrix.msc4284.policy"
+        });
+        let event = from_json_value::<OriginalStateEvent<RoomPolicyEventContent>>(json_data).unwrap();
+        assert_eq!(event.content.via, Some("example.com".to_owned()));
+        assert_eq!(event.content.effective_key().expect("Effective key should be present"), Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s").expect("failed to parse base64 key"));
+        assert_eq!(event.content.event_type(), "m.room.policy".into());
     }
 }

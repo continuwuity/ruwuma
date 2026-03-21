@@ -154,8 +154,10 @@ event_enum! {
         #[ruma_enum(alias = "m.member_hints")]
         "io.element.functional_members" => super::member_hints,
         #[cfg(feature = "unstable-msc4284")]
-        #[ruma_enum(ident = RoomPolicy)]
+        #[ruma_enum(ident = UnstableRoomPolicy)]
         "org.matrix.msc4284.policy" => super::room::policy,
+        #[ruma_enum(ident = RoomPolicy)]
+        "m.room.policy" => super::room::policy,
     }
 
     /// Any to-device event.
