@@ -56,12 +56,6 @@ pub struct RoomPolicyEventContent {
     /// If the value is empty, the policy server should be ignored.
     pub via: Option<String>,
 
-    /// The public key this policy server will sign with.
-    ///
-    /// If omitted, public_keys must be present.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub public_key: Option<Base64<UrlSafe, Vec<u8>>>,
-
     /// The public keys this policy server may sign with.
     ///
     /// If omitted, public_key must be present.
@@ -72,7 +66,7 @@ pub struct RoomPolicyEventContent {
 impl RoomPolicyEventContent {
     /// Create an empty `RoomPolicyEventContent`.
     pub fn new() -> Self {
-        Self { via: None, public_key: None, public_keys: None }
+        Self { via: None, public_keys: None }
     }
 
     pub fn effective_key(&self) -> Result<Base64<UrlSafe, Vec<u8>>, Box<dyn std::error::Error>> {
@@ -81,26 +75,7 @@ impl RoomPolicyEventContent {
                 return Ok(key.clone());
             };
         }
-        self.public_key.clone().ok_or_else(|| "No public key in configuration".into())
-    }
-}
-
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
-pub struct PolicyServerResponseContent {
-    /// The policy server's verdict. Either `ok` or `spam`.
-    pub recommendation: String,
-}
-
-impl PolicyServerResponseContent {
-    /// Create a new `PolicyServerResponseContent` with the given recommendation.
-    pub fn new(recommendation: String) -> Self {
-        Self { recommendation }
-    }
-}
-
-impl From<String> for PolicyServerResponseContent {
-    fn from(recommendation: String) -> Self {
-        Self::new(recommendation)
+        Err("No public key in configuration".into())
     }
 }
 
@@ -317,7 +292,7 @@ mod tests {
             "room_id": "!123456:example.com",
             "sender": "@carl:example.com",
             "state_key": "",
-            "type": "org.matrix.msc4284.policy"
+            "type": "m.room.policy"
         });
         let event = from_json_value::<OriginalStateEvent<RoomPolicyEventContent>>(json_data).unwrap();
         assert_eq!(event.content.via, Some("example.com".to_owned()));
