@@ -6,8 +6,10 @@ use std::collections::BTreeMap;
 use ruma_macros::EventContent;
 use serde::{Deserialize, Serialize};
 use ruma_common::serde::Base64;
-use ruma_common::serde::base64::UrlSafe;
+use ruma_common::serde::base64::Standard;
 use crate::EmptyStateKey;
+
+type PolicyServerSigningKey = Base64<Standard, Vec<u8>>;
 
 #[derive(Clone, Debug, Deserialize, Serialize, EventContent)]
 #[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
@@ -22,13 +24,13 @@ pub struct UnstableRoomPolicyEventContent {
     ///
     /// If omitted, public_keys must be present.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub public_key: Option<Base64<UrlSafe, Vec<u8>>>,
+    pub public_key: Option<PolicyServerSigningKey>,
 
     /// The public keys this policy server may sign with.
     ///
     /// If omitted, public_key must be present.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub public_keys: Option<BTreeMap<String, Base64<UrlSafe, Vec<u8>>>>,
+    pub public_keys: Option<BTreeMap<String, PolicyServerSigningKey>>,
 }
 
 impl UnstableRoomPolicyEventContent {
@@ -37,7 +39,7 @@ impl UnstableRoomPolicyEventContent {
         Self { via: None, public_key: None, public_keys: None }
     }
 
-    pub fn effective_key(&self) -> Result<Base64<UrlSafe, Vec<u8>>, Box<dyn std::error::Error>> {
+    pub fn effective_key(&self) -> Result<PolicyServerSigningKey, Box<dyn std::error::Error>> {
         if let Some(keys) = &self.public_keys {
             if let Some(key) = keys.get("ed25519") {
                 return Ok(key.clone());
@@ -60,7 +62,7 @@ pub struct RoomPolicyEventContent {
     ///
     /// If omitted, public_key must be present.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub public_keys: Option<BTreeMap<String, Base64<UrlSafe, Vec<u8>>>>,
+    pub public_keys: Option<BTreeMap<String, PolicyServerSigningKey>>,
 }
 
 impl RoomPolicyEventContent {
@@ -69,7 +71,7 @@ impl RoomPolicyEventContent {
         Self { via: None, public_keys: None }
     }
 
-    pub fn effective_key(&self) -> Result<Base64<UrlSafe, Vec<u8>>, Box<dyn std::error::Error>> {
+    pub fn effective_key(&self) -> Result<PolicyServerSigningKey, Box<dyn std::error::Error>> {
         if let Some(keys) = &self.public_keys {
             if let Some(key) = keys.get("ed25519") {
                 return Ok(key.clone());
@@ -298,5 +300,21 @@ mod tests {
         assert_eq!(event.content.via, Some("example.com".to_owned()));
         assert_eq!(event.content.effective_key().expect("Effective key should be present"), Base64::parse("6yhHGKhCiXTSEN2ksjV7kX_N6rBQZ3Xb-M7LlC6NS-s").expect("failed to parse base64 key"));
         assert_eq!(event.content.event_type(), "m.room.policy".into());
+    }
+
+    #[test]
+    fn real_state_event() {
+        let json_data = json!({
+            "public_key": "+f6V33kgj98Wb4LcgVvO/0INL0jEQjMkl77+1O3wRY4",
+            "public_keys": {
+                "ed25519": "+f6V33kgj98Wb4LcgVvO/0INL0jEQjMkl77+1O3wRY4"
+            },
+            "via": "corellia.timedout.uk"
+        });
+        let event = from_json_value::<RoomPolicyEventContent>(json_data);
+        assert!(event.is_ok(), "Failed to deserialize real state event: {:?}", event.err());
+        let event = event.unwrap();
+        assert_eq!(event.via, Some("corellia.timedout.uk".to_owned()));
+        assert_eq!(event.effective_key().expect("Effective key should be present"), Base64::parse("+f6V33kgj98Wb4LcgVvO/0INL0jEQjMkl77+1O3wRY4").expect("failed to parse base64 key"));
     }
 }
