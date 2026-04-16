@@ -30,7 +30,7 @@ pub struct Request {}
 pub struct Response {
 	/// A list of the available MatrixRTC foci, ordered by priority.
 	#[serde(default, skip_serializing_if = "Vec::is_empty")]
-	pub rtc_foci: Vec<RtcFocusInfo>,
+	pub rtc_transports: Vec<RtcFocusInfo>,
 }
 
 impl Request {
@@ -42,7 +42,7 @@ impl Request {
 
 impl Response {
 	/// Creates a new `Response` with the given RTC foci.
-	pub fn new(rtc_foci: Vec<RtcFocusInfo>) -> Self {
-		Self { rtc_foci }
+	pub fn new(rtc_transports: Vec<RtcFocusInfo>) -> Self {
+		Self { rtc_transports }
 	}
 }
